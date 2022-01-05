@@ -23,7 +23,12 @@ fn draw_grid(ctx: web_sys::CanvasRenderingContext2d) -> web_sys::CanvasRendering
 }
 
 #[wasm_bindgen]
-pub fn run() {
+pub fn tick(ctx: web_sys::CanvasRenderingContext2d, _time: f64) {
+    draw_grid(ctx);
+}
+
+#[wasm_bindgen]
+pub fn setup() -> web_sys::CanvasRenderingContext2d {
     web_sys::console::log_1(&"Running WASM".into());
 
     let document = web_sys::window().unwrap().document().unwrap();
@@ -40,5 +45,5 @@ pub fn run() {
         .dyn_into::<web_sys::CanvasRenderingContext2d>()
         .unwrap();
 
-    draw_grid(context);
+    context
 }
