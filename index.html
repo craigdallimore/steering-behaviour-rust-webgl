@@ -1,0 +1,18 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="icon" href="static/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome</title></head>
+  <body>
+    <h1>WEB SITE</h1>
+    <script type="module">
+      import init, {greet} from "./pkg/steering.js";
+      init()
+        .then(() => {
+          greet("WebAssembly")
+        });
+    </script>
+  </body>
+</html>
