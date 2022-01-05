@@ -1,4 +1,4 @@
-import init, { greet } from "./pkg/steering.js";
+import init, { run } from "./pkg/steering.js";
 init().then(() => {
-  greet("WebAssembly");
+  run();
 });
