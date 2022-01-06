@@ -17,12 +17,17 @@ struct App {
 
 static mut APP: Option<App> = None;
 
+#[allow(illegal_floating_point_literal_pattern)]
 fn on_animation_frame(nexttime: f64) {
     let app = unsafe { APP.as_mut().unwrap() };
-    let delta = app.prevtime - nexttime;
+    let delta = match app.prevtime {
+        0.0 => 1.0,
+        x => nexttime - x,
+    } as f32;
+
     app.prevtime = nexttime;
 
-    web_sys::console::log_1(&format!("delta: {}", delta).into());
+    web_sys::console::log_1(&format!("nexttime: {}, delta: {}", nexttime, delta).into());
     draw_grid(&app.ctx);
 
     app.handle = request_animation_frame(on_animation_frame);
