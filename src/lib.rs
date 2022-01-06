@@ -1,35 +1,38 @@
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast; // Appears to enable casting (e.g. for Element -> HTMLCanvasElement)
 
-fn draw_grid(ctx: web_sys::CanvasRenderingContext2d) -> web_sys::CanvasRenderingContext2d {
-    ctx.save();
-    ctx.set_stroke_style(&"rgb(227, 242, 253)".into());
+mod draw;
+mod raf;
 
-    for x in (10..800).step_by(10) {
-        ctx.begin_path();
-        ctx.move_to(x as f64, 0.0);
-        ctx.line_to(x as f64, 800.0);
-        ctx.stroke();
-    }
-    for z in (10..800).step_by(10) {
-        ctx.begin_path();
-        ctx.move_to(0.0, z as f64);
-        ctx.line_to(800.0, z as f64);
-        ctx.stroke();
-    }
+use crate::draw::*;
+use crate::raf::*;
 
-    ctx.restore();
-    ctx
+// ---------------------------------------------------------------------
+
+struct App {
+    ctx: web_sys::CanvasRenderingContext2d,
+    handle: AnimationFrame,
+    prevtime: f64,
 }
 
-#[wasm_bindgen]
-pub fn tick(ctx: web_sys::CanvasRenderingContext2d, _time: f64) {
-    draw_grid(ctx);
+static mut APP: Option<App> = None;
+
+fn on_animation_frame(nexttime: f64) {
+    let app = unsafe { APP.as_mut().unwrap() };
+    let delta = app.prevtime - nexttime;
+    app.prevtime = nexttime;
+
+    web_sys::console::log_1(&format!("delta: {}", delta).into());
+    draw_grid(&app.ctx);
+
+    app.handle = request_animation_frame(on_animation_frame);
 }
 
-#[wasm_bindgen]
-pub fn setup() -> web_sys::CanvasRenderingContext2d {
-    web_sys::console::log_1(&"Running WASM".into());
+// ---------------------------------------------------------------------
+
+#[wasm_bindgen(start)]
+pub fn main() -> Result<(), JsValue> {
+    web_sys::console::log_1(&"Running WASM_".into());
 
     let document = web_sys::window().unwrap().document().unwrap();
     let canvas = document.get_element_by_id("canvas-main").unwrap();
@@ -45,5 +48,13 @@ pub fn setup() -> web_sys::CanvasRenderingContext2d {
         .dyn_into::<web_sys::CanvasRenderingContext2d>()
         .unwrap();
 
-    context
+    unsafe {
+        APP = Some(App {
+            ctx: context,
+            handle: request_animation_frame(on_animation_frame),
+            prevtime: 0.0,
+        });
+    }
+
+    Ok(())
 }
