@@ -2,10 +2,15 @@ use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast; // Appears to enable casting (e.g. for Element -> HTMLCanvasElement)
 
 mod draw;
+mod kinematic;
 mod raf;
+mod state;
+mod vector;
 
 use crate::draw::*;
+use crate::kinematic::*;
 use crate::raf::*;
+use crate::state::*;
 
 // ---------------------------------------------------------------------
 
@@ -35,6 +40,13 @@ fn on_animation_frame(nexttime: f64) {
 
 // ---------------------------------------------------------------------
 
+struct AppState(i32);
+
+enum AppAction {
+    ActionAdd,
+    ActionNothing,
+}
+
 #[wasm_bindgen(start)]
 pub fn main() -> Result<(), JsValue> {
     web_sys::console::log_1(&"Running WASM_".into());
@@ -60,6 +72,17 @@ pub fn main() -> Result<(), JsValue> {
             prevtime: 0.0,
         });
     }
+
+    let initial_state: &'static mut AppState = &mut AppState(1);
+    let reducer = |AppState(s): &'static mut AppState, a: AppAction| {
+        match a {
+            AppAction::ActionAdd => s = s + 1,
+            _ => (),
+        };
+    };
+
+    let store: Store<AppState, AppAction> = Store::new(Box::new(reducer), initial_state);
+    let state = store.get_state();
 
     Ok(())
 }

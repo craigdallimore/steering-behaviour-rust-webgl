@@ -13,6 +13,7 @@ impl Vector {
     fn length(v: &Vector) -> f32 {
         v.0.hypot(v.1)
     }
+    // TODO: check if this is legit
     fn to_radians(v: &Vector) -> f32 {
         v.0.atan2(0.0 - v.1)
     }
