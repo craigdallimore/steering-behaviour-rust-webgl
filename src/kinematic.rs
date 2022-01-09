@@ -1,8 +1,8 @@
 use crate::vector::Vector;
 
 pub struct Kinematic {
-    position: Vector,
-    orientation: f32,
-    velocity: Vector,
-    rotation: f32,
+    pub position: Vector,
+    pub orientation: f64,
+    pub velocity: Vector,
+    pub rotation: f64,
 }

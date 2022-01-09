@@ -1,27 +1,27 @@
 use std::ops;
 
 #[derive(Copy, Clone, Debug, PartialEq)]
-pub struct Vector(f32, f32);
+pub struct Vector(pub f64, pub f64);
 
 impl Vector {
-    fn dot(a: &Vector, b: &Vector) -> f32 {
+    fn dot(a: &Vector, b: &Vector) -> f64 {
         a.0 * b.0 + a.1 * b.1
     }
-    fn cross(a: &Vector, b: &Vector) -> f32 {
+    fn cross(a: &Vector, b: &Vector) -> f64 {
         a.0 * b.1 - a.1 * b.0
     }
-    fn length(v: &Vector) -> f32 {
+    fn length(v: &Vector) -> f64 {
         v.0.hypot(v.1)
     }
     // TODO: check if this is legit
-    fn to_radians(v: &Vector) -> f32 {
+    fn to_radians(v: &Vector) -> f64 {
         v.0.atan2(0.0 - v.1)
     }
-    fn from_radians(rad: f32) -> Vector {
+    fn from_radians(rad: f64) -> Vector {
         Vector(rad.sin(), rad.cos())
     }
-    fn from_degrees(angle: f32) -> Vector {
-        let theta = (angle * std::f32::consts::PI) / 180.0;
+    fn from_degrees(angle: f64) -> Vector {
+        let theta = (angle * std::f64::consts::PI) / 180.0;
         Vector(theta.cos(), theta.sin())
     }
     fn normalise(v: &Vector) -> Vector {
@@ -33,7 +33,7 @@ impl Vector {
         let v2 = v.clone();
         v2 * factor
     }
-    fn distance(a: Vector, b: Vector) -> f32 {
+    fn distance(a: Vector, b: Vector) -> f64 {
         let v = a - b;
         Vector::length(&v)
     }
@@ -51,14 +51,14 @@ impl ops::Sub<Vector> for Vector {
         Vector(self.0 - _rhs.0, self.1 - _rhs.1)
     }
 }
-impl ops::Mul<f32> for Vector {
+impl ops::Mul<f64> for Vector {
     type Output = Vector;
-    fn mul(self, _rhs: f32) -> Vector {
+    fn mul(self, _rhs: f64) -> Vector {
         Vector(self.0 * _rhs, self.1 * _rhs)
     }
 }
-impl ops::MulAssign<f32> for Vector {
-    fn mul_assign(&mut self, _rhs: f32) {
+impl ops::MulAssign<f64> for Vector {
+    fn mul_assign(&mut self, _rhs: f64) {
         self.0 *= _rhs;
         self.1 *= _rhs;
     }
