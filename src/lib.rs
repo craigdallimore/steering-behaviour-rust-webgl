@@ -13,14 +13,24 @@ use crate::vector::*;
 
 // ---------------------------------------------------------------------
 
+#[derive(Copy, Clone)]
+struct State {
+    kinematic: Kinematic,
+}
+
 struct App {
-    state: Kinematic,
+    state: State,
     ctx: web_sys::CanvasRenderingContext2d,
     handle: AnimationFrame,
     prevtime: f64,
 }
 
 static mut APP: Option<App> = None;
+
+fn update(state: &mut State) -> &mut State {
+    state.kinematic.position.0 = state.kinematic.position.0 + 0.5;
+    state
+}
 
 #[allow(illegal_floating_point_literal_pattern)]
 fn on_animation_frame(nexttime: f64) {
@@ -34,7 +44,8 @@ fn on_animation_frame(nexttime: f64) {
 
     web_sys::console::log_1(&format!("nexttime: {}, delta: {}", nexttime, delta).into());
     draw_grid(&app.ctx);
-    draw_arrow(&app.ctx, &app.state);
+    draw_arrow(&app.ctx, &app.state.kinematic);
+    app.state = update(app.state);
 
     app.handle = request_animation_frame(on_animation_frame);
 }
@@ -59,14 +70,18 @@ pub fn main() -> Result<(), JsValue> {
         .dyn_into::<web_sys::CanvasRenderingContext2d>()
         .unwrap();
 
+    let initial_state = State {
+        kinematic: Kinematic {
+            position: Vector(300.0, 300.0),
+            orientation: 0.0,
+            velocity: Vector(0.0, 0.0),
+            rotation: 0.0,
+        },
+    };
+
     unsafe {
         APP = Some(App {
-            state: Kinematic {
-                position: Vector(300.0, 300.0),
-                orientation: 0.0,
-                velocity: Vector(0.0, 0.0),
-                rotation: 0.0,
-            },
+            state: initial_state,
             ctx: context,
             handle: request_animation_frame(on_animation_frame),
             prevtime: 0.0,
