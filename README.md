@@ -8,7 +8,7 @@ This is a rust application for exploring steering behaviours.
 
 ```bash
 # be in nix-shell
-simple-http-server -p 8888 static
+simple-http-server -p 8888
 ```
 
 ### To build

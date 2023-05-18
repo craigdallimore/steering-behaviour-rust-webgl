@@ -2,25 +2,40 @@
 name = "steering"
 version = "0.1.0"
 authors = ["craigdallimore <decoy9697@gmail.com>"]
-edition = "2018"
+edition = "2021"
+license = "MIT"
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
-wasm-bindgen = "0.2.78"
-js-sys = "0.3.55"
+game-loop = "0.10.1"
+wasm-bindgen = "0.2"
+js-sys = "0.3.59"
+rand = "0.8.5"
+getrandom = { version = "0.2", features = ["js"] }
+serde = { version = "1.0.152", features = ["derive"] }                              # A generic serialization/deserialization framework
+serde_json = "1.0.91"                          # A JSON serialization file format
 
 [dependencies.web-sys]
-version = "0.3.55"
+version = "0.3.59"
 features = [
-  'CanvasRenderingContext2d',
+  # 'CanvasRenderingContext2d',
   'Document',
   'Element',
-  'HtmlElement',
   'HtmlCanvasElement',
-  'Node',
+  'HtmlElement',
+  'CanvasRenderingContext2d',
+  'WebGl2RenderingContext',
+  'WebGlUniformLocation',
+  'WebGlBuffer',
+  'WebGlProgram',
+  'WebGlShader',
+  'WebGlVertexArrayObject',
   'Window',
   'console',
 ]

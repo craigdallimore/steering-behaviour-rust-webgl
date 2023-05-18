@@ -1,92 +1,53 @@
-use wasm_bindgen::prelude::*;
-use wasm_bindgen::JsCast; // Appears to enable casting (e.g. for Element -> HTMLCanvasElement)
+// https://github.com/rustwasm/wasm-bindgen/issues/2882
+#![allow(non_snake_case,non_upper_case_globals)]
 
-mod draw;
-mod kinematic;
-mod raf;
 mod vector;
+mod draw;
+mod canvas;
+mod kinematic;
 
-use crate::draw::*;
-use crate::kinematic::*;
-use crate::raf::*;
-use crate::vector::*;
+use game_loop::game_loop;
+use draw::draw_grid;
+use vector::Vector;
+use web_sys::CanvasRenderingContext2d;
 
-// ---------------------------------------------------------------------
+use wasm_bindgen::prelude::*;
+use canvas::get_context;
 
-#[derive(Copy, Clone)]
-struct State {
-    kinematic: Kinematic,
+pub struct State {
+  dimensions: Vector
 }
 
-struct App {
-    state: State,
-    ctx: web_sys::CanvasRenderingContext2d,
-    handle: AnimationFrame,
-    prevtime: f64,
+impl State {
+  fn new(dimensions: Vector) -> State {
+    State {
+      dimensions
+    }
+  }
+
+  fn update(&mut self, _time: f64) {
+    //self.emitter.update(time, self.dimensions);
+  }
+
+  fn render(&self, ctx: &CanvasRenderingContext2d) {
+    draw_grid(ctx);
+  }
 }
-
-static mut APP: Option<App> = None;
-
-fn update(state: &mut State) -> &mut State {
-    state.kinematic.position.0 = state.kinematic.position.0 + 0.5;
-    state
-}
-
-#[allow(illegal_floating_point_literal_pattern)]
-fn on_animation_frame(nexttime: f64) {
-    let app = unsafe { APP.as_mut().unwrap() };
-    let delta = match app.prevtime {
-        0.0 => 1.0,
-        x => nexttime - x,
-    } as f32;
-
-    app.prevtime = nexttime;
-
-    web_sys::console::log_1(&format!("nexttime: {}, delta: {}", nexttime, delta).into());
-    draw_grid(&app.ctx);
-    draw_arrow(&app.ctx, &app.state.kinematic);
-    app.state = update(app.state);
-
-    app.handle = request_animation_frame(on_animation_frame);
-}
-
-// ---------------------------------------------------------------------
 
 #[wasm_bindgen(start)]
 pub fn main() -> Result<(), JsValue> {
-    web_sys::console::log_1(&"Running WASM_".into());
 
-    let document = web_sys::window().unwrap().document().unwrap();
-    let canvas = document.get_element_by_id("canvas-main").unwrap();
-    let canvas: web_sys::HtmlCanvasElement = canvas
-        .dyn_into::<web_sys::HtmlCanvasElement>()
-        .map_err(|_| ())
-        .unwrap();
+  let dimensions = Vector(800.0, 800.0);
+  let game = State::new(dimensions);
+  let ctx = get_context()?;
 
-    let context = canvas
-        .get_context("2d")
-        .unwrap()
-        .unwrap()
-        .dyn_into::<web_sys::CanvasRenderingContext2d>()
-        .unwrap();
+  //game.emitter.max_particles = 10000;
 
-    let initial_state = State {
-        kinematic: Kinematic {
-            position: Vector(300.0, 300.0),
-            orientation: 0.0,
-            velocity: Vector(0.0, 0.0),
-            rotation: 0.0,
-        },
-    };
+  game_loop(game, 240, 0.1, |g| {
+    g.game.update(g.last_frame_time());
+  }, move |g| {
+    g.game.render(&ctx);
+  });
 
-    unsafe {
-        APP = Some(App {
-            state: initial_state,
-            ctx: context,
-            handle: request_animation_frame(on_animation_frame),
-            prevtime: 0.0,
-        });
-    }
-
-    Ok(())
+  Ok(())
 }
