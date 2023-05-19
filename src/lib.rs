@@ -9,7 +9,7 @@ mod kinematic;
 use game_loop::game_loop;
 use draw::draw_grid;
 use vector::Vector;
-use web_sys::CanvasRenderingContext2d;
+use web_sys::WebGl2RenderingContext;
 
 use wasm_bindgen::prelude::*;
 use canvas::get_context;
@@ -29,8 +29,8 @@ impl State {
     //self.emitter.update(time, self.dimensions);
   }
 
-  fn render(&self, ctx: &CanvasRenderingContext2d) {
-    draw_grid(ctx);
+  fn render(&self, ctx: &WebGl2RenderingContext) {
+    draw_grid(ctx, &self);
   }
 }
 

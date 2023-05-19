@@ -1,6 +1,20 @@
-use crate::kinematic::Kinematic;
+use crate::State;
+//use crate::kinematic::Kinematic;
 
-pub fn draw_grid(ctx: &web_sys::CanvasRenderingContext2d) -> &web_sys::CanvasRenderingContext2d {
+pub fn draw_grid(
+  ctx: &web_sys::WebGl2RenderingContext,
+  state: &State
+) -> () {
+
+  ctx.viewport(
+    0,
+    0,
+    state.dimensions.0 as i32,
+    state.dimensions.1 as i32
+  );
+
+
+    /*
     ctx.save();
     ctx.set_stroke_style(&"rgb(227, 242, 253)".into());
 
@@ -19,8 +33,10 @@ pub fn draw_grid(ctx: &web_sys::CanvasRenderingContext2d) -> &web_sys::CanvasRen
 
     ctx.restore();
     ctx
+    */
 }
 
+/*
 pub fn draw_arrow<'a>(
     ctx: &'a web_sys::CanvasRenderingContext2d,
     c: &Kinematic,
@@ -42,3 +58,4 @@ pub fn draw_arrow<'a>(
     ctx.restore();
     ctx
 }
+*/
