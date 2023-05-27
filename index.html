@@ -8,6 +8,46 @@
   </head>
   <body>
     <main>
+      <script id="vs-stage" type="x-shader/x-vertex">#version 300 es
+        in vec4 position;
+
+        void main() {
+          gl_Position = position;
+        }
+      </script>
+      <script id="fs-stage" type="x-shader/x-fragment">#version 300 es
+
+        precision mediump float;
+
+        uniform vec2 u_resolution;
+
+        out vec4 outColor;
+
+        void main() {
+           // Calculate the x and y positions of the current pixel
+          float x = gl_FragCoord.x;
+          float y = gl_FragCoord.y;
+
+           // Calculate the x and y positions of the closest dark line
+           bool darkLineX = mod(floor(x), 100.0) == 0.0;
+           bool darkLineY = mod(floor(y), 100.0) == 0.0;
+
+           // Calculate the x and y positions of the closest light line
+           bool lightLineX = mod(floor(x), 10.0) == 0.0;
+           bool lightLineY = mod(floor(y), 10.0) == 0.0;
+
+           if (x < 1.0 || y < 1.0) {
+               outColor = vec4(1.0, 1.0, 1.0, 1.0);
+           } else if (darkLineX || darkLineY) {
+               outColor = vec4(0.8, 0.8, 1.0, 1.0);
+           } else if (lightLineX || lightLineY) {
+               outColor = vec4(0.9, 0.9, 1.0, 1.0);
+           } else {
+               outColor = vec4(1.0, 1.0, 1.0, 1.0);
+           }
+       }
+
+      </script>
       <canvas width="800" height="800" id="canvas-main"></canvas>
       <form>
         <fieldset>

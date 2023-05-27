@@ -5,11 +5,13 @@ mod vector;
 mod draw;
 mod canvas;
 mod kinematic;
+mod program_stage;
 
 use game_loop::game_loop;
-use draw::draw_grid;
+//use draw::draw_grid;
 use vector::Vector;
 use web_sys::WebGl2RenderingContext;
+use program_stage::{get_stage_program};
 
 use wasm_bindgen::prelude::*;
 use canvas::get_context;
@@ -30,7 +32,15 @@ impl State {
   }
 
   fn render(&self, ctx: &WebGl2RenderingContext) {
-    draw_grid(ctx, &self);
+
+    //draw_grid(ctx, &self);
+
+    ctx.draw_arrays(
+      WebGl2RenderingContext::TRIANGLES,
+      0, // starting point
+      6  // number of points to draw
+    );
+
   }
 }
 
@@ -41,7 +51,16 @@ pub fn main() -> Result<(), JsValue> {
   let game = State::new(dimensions);
   let ctx = get_context()?;
 
-  //game.emitter.max_particles = 10000;
+  let vertex_buffer = ctx.create_buffer().unwrap();
+  ctx.bind_buffer(WebGl2RenderingContext::ARRAY_BUFFER, Some(&vertex_buffer));
+
+  let stage_program = get_stage_program(&ctx)?;
+
+  ctx.use_program(Some(&stage_program));
+
+  if let Some(resolution_location) = ctx.get_uniform_location(&stage_program, "u_resolution") {
+    ctx.uniform2f(Some(&resolution_location), dimensions.0 as f32, dimensions.1 as f32);
+  }
 
   game_loop(game, 240, 0.1, |g| {
     g.game.update(g.last_frame_time());
