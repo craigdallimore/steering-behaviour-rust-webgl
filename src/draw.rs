@@ -1,39 +1,17 @@
-use crate::State;
-//use crate::kinematic::Kinematic;
+use web_sys::{WebGl2RenderingContext, WebGlBuffer};
 
-pub fn draw_grid(
+pub fn draw_stage(
   ctx: &web_sys::WebGl2RenderingContext,
-  state: &State
+  stage_vertex_buffer: &WebGlBuffer
 ) -> () {
 
-  ctx.viewport(
-    0,
-    0,
-    state.dimensions.0 as i32,
-    state.dimensions.1 as i32
+  ctx.bind_buffer(WebGl2RenderingContext::ARRAY_BUFFER, Some(&stage_vertex_buffer));
+
+  ctx.draw_arrays(
+    WebGl2RenderingContext::TRIANGLES,
+    0, // starting point
+    6  // number of points to draw
   );
-
-
-    /*
-    ctx.save();
-    ctx.set_stroke_style(&"rgb(227, 242, 253)".into());
-
-    for x in (10..800).step_by(10) {
-        ctx.begin_path();
-        ctx.move_to(x as f64, 0.0);
-        ctx.line_to(x as f64, 800.0);
-        ctx.stroke();
-    }
-    for z in (10..800).step_by(10) {
-        ctx.begin_path();
-        ctx.move_to(0.0, z as f64);
-        ctx.line_to(800.0, z as f64);
-        ctx.stroke();
-    }
-
-    ctx.restore();
-    ctx
-    */
 }
 
 /*
