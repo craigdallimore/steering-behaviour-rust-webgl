@@ -1,6 +1,6 @@
 use web_sys::{WebGl2RenderingContext, WebGlProgram};
 
-use crate::canvas::{get_shader_string_by_id, compile_shader, link_program};
+use crate::{canvas::{get_shader_string_by_id, compile_shader, link_program}, vector::Vector};
 
 pub fn get_stage_program(ctx: &WebGl2RenderingContext) -> Result<WebGlProgram, String> {
 
@@ -26,23 +26,15 @@ pub fn get_stage_program(ctx: &WebGl2RenderingContext) -> Result<WebGlProgram, S
     &frag_shader,
   )?;
 
-  setup_stage_program(ctx, &program);
-
   Ok(program)
 
 }
 
-fn setup_stage_program(ctx: &WebGl2RenderingContext, stage_program: &WebGlProgram) -> () {
-
-  // Define the vertices for two triangles that form a square
-  let vertices: [f32; 12] = [
-    -1.0, -1.0,
-    1.0, -1.0,
-    -1.0, 1.0,
-    -1.0, 1.0,
-    1.0, -1.0,
-    1.0, 1.0,
-  ];
+pub fn setup_stage_program(
+  ctx: &WebGl2RenderingContext,
+  stage_program: &WebGlProgram,
+  dimensions: &Vector
+) -> () {
 
   let position = ctx.get_attrib_location(&stage_program, "position");
   ctx.enable_vertex_attrib_array(position as u32);
@@ -55,6 +47,24 @@ fn setup_stage_program(ctx: &WebGl2RenderingContext, stage_program: &WebGlProgra
     0,                             // offset
     );
 
+  if let Some(resolution_location) = ctx.get_uniform_location(&stage_program, "u_resolution") {
+    ctx.uniform2f(Some(&resolution_location), dimensions.0 as f32, dimensions.1 as f32);
+  }
+
+}
+
+pub fn buffer_stage_data(ctx: &WebGl2RenderingContext) -> () {
+
+  // Define the vertices for two triangles that form a square
+  let vertices: [f32; 12] = [
+    -1.0, -1.0,
+    1.0, -1.0,
+    -1.0, 1.0,
+    -1.0, 1.0,
+    1.0, -1.0,
+    1.0, 1.0,
+  ];
+
   unsafe {
     let vertex_array = js_sys::Float32Array::view(&vertices);
     ctx.buffer_data_with_array_buffer_view(
@@ -63,8 +73,5 @@ fn setup_stage_program(ctx: &WebGl2RenderingContext, stage_program: &WebGlProgra
       WebGl2RenderingContext::STATIC_DRAW,
       );
   }
-
-
-
 
 }

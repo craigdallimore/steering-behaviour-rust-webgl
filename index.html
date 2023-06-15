@@ -46,6 +46,22 @@
                outColor = vec4(1.0, 1.0, 1.0, 1.0);
            }
        }
+      </script>
+      <script id="vs-arrow" type="x-shader/x-vertex">#version 300 es
+        in vec4 position;
+
+        void main() {
+          gl_Position = position;
+        }
+      </script>
+      <script id="fs-arrow" type="x-shader/x-fragment">#version 300 es
+        precision mediump float;
+
+        out vec4 fragColor;
+
+        void main() {
+            fragColor = vec4(1.0, 0.0, 0.0, 1.0);
+        }
 
       </script>
       <canvas width="800" height="800" id="canvas-main"></canvas>
