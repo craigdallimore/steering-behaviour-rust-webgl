@@ -65,6 +65,38 @@ pub fn link_program(
 
 }
 
+pub fn make_program(
+  ctx: &WebGl2RenderingContext,
+  vs_id: &str,
+  fs_id: &str
+) -> Result<WebGlProgram, String> {
+
+  let vert_shader_content = get_shader_string_by_id(String::from(vs_id));
+
+  let vert_shader = compile_shader(
+    &ctx,
+    WebGl2RenderingContext::VERTEX_SHADER,
+    &vert_shader_content
+  )?;
+
+  let frag_shader_content = get_shader_string_by_id(String::from(fs_id));
+
+  let frag_shader = compile_shader(
+    &ctx,
+    WebGl2RenderingContext::FRAGMENT_SHADER,
+    &frag_shader_content
+  )?;
+
+  let program = link_program(
+    &ctx,
+    &vert_shader,
+    &frag_shader,
+  )?;
+
+  Ok(program)
+
+}
+
 pub fn get_shader_string_by_id(id: String) -> String {
   let document = web_sys::window().unwrap().document().unwrap();
   let element = document.get_element_by_id(&id).unwrap().dyn_into::<web_sys::Element>().unwrap();

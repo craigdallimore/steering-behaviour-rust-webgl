@@ -1,4 +1,4 @@
-use web_sys::{WebGl2RenderingContext, WebGlBuffer};
+use web_sys::WebGl2RenderingContext;
 
 pub fn draw_stage(
   ctx: &web_sys::WebGl2RenderingContext,

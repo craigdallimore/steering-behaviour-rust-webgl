@@ -11,12 +11,12 @@ mod program_arrow;
 use game_loop::game_loop;
 use draw::{draw_stage, draw_arrow};
 use vector::Vector;
-use web_sys::{WebGl2RenderingContext, WebGlBuffer, WebGlProgram};
-use program_stage::{get_stage_program, setup_stage_program, buffer_stage_data};
-use program_arrow::{get_arrow_program, setup_arrow_program, buffer_arrow_data};
+use web_sys::{WebGl2RenderingContext, WebGlProgram};
+use program_stage::{setup_stage_program, buffer_stage_data};
+use program_arrow::{setup_arrow_program, buffer_arrow_data};
 
 use wasm_bindgen::prelude::*;
-use canvas::get_context;
+use canvas::{get_context, make_program};
 
 pub struct Game {
   dimensions: Vector,
@@ -70,8 +70,8 @@ pub fn main() -> Result<(), JsValue> {
   let stage_vertex_buffer = ctx.create_buffer().unwrap();
   let arrow_vertex_buffer = ctx.create_buffer().unwrap();
 
-  let stage_program = get_stage_program(&ctx)?;
-  let arrow_program = get_arrow_program(&ctx)?;
+  let stage_program = make_program(&ctx, "vs-stage", "fs-stage")?;
+  let arrow_program = make_program(&ctx, "vs-arrow", "fs-arrow")?;
 
   ctx.bind_buffer(WebGl2RenderingContext::ARRAY_BUFFER, Some(&stage_vertex_buffer));
   setup_stage_program(&ctx, &stage_program, &dimensions);
