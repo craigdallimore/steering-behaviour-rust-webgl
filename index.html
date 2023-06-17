@@ -9,17 +9,15 @@
   <body>
     <main>
       <script id="vs-stage" type="x-shader/x-vertex">#version 300 es
-        in vec4 position;
+        in vec4 a_position;
 
         void main() {
-          gl_Position = position;
+          gl_Position = a_position;
         }
       </script>
       <script id="fs-stage" type="x-shader/x-fragment">#version 300 es
 
         precision mediump float;
-
-        uniform vec2 u_resolution;
 
         out vec4 outColor;
 
@@ -48,10 +46,23 @@
        }
       </script>
       <script id="vs-arrow" type="x-shader/x-vertex">#version 300 es
-        in vec4 position;
+
+        precision mediump float;
+
+        in vec2 a_position;
+        uniform vec2 u_resolution;
 
         void main() {
-          gl_Position = position;
+          // convert position from pixels to 0.0 <-> 1.0
+          vec2 zeroToOne = a_position / u_resolution;
+
+          // convert from 0<->1 to 0<->2
+          vec2 zeroToTwo = zeroToOne * 2.0;
+
+          // convert from 0<->2 to -1 <-> +1 (clip space)
+          vec2 clipspace = zeroToTwo - 1.0;
+
+          gl_Position = vec4(clipspace, 0, 1);
         }
       </script>
       <script id="fs-arrow" type="x-shader/x-fragment">#version 300 es

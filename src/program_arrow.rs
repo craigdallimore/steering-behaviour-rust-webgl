@@ -1,8 +1,14 @@
 use web_sys::{WebGl2RenderingContext, WebGlProgram};
 
-pub fn setup_arrow_program(ctx: &WebGl2RenderingContext, arrow_program: &WebGlProgram) -> () {
+use crate::vector::Vector;
 
-  let position = ctx.get_attrib_location(&arrow_program, "position");
+pub fn setup_arrow_program(
+  ctx: &WebGl2RenderingContext,
+  arrow_program: &WebGlProgram,
+  dimensions: &Vector
+) -> () {
+
+  let position = ctx.get_attrib_location(&arrow_program, "a_position");
   ctx.enable_vertex_attrib_array(position as u32);
   ctx.vertex_attrib_pointer_with_i32(
     position as u32,               // location
@@ -13,19 +19,29 @@ pub fn setup_arrow_program(ctx: &WebGl2RenderingContext, arrow_program: &WebGlPr
     0,                             // offset (bytes from start of buffer)
     );
 
+  if let Some(resolution_location) = ctx.get_uniform_location(&arrow_program, "u_resolution") {
+    ctx.uniform2f(Some(&resolution_location), dimensions.0 as f32, dimensions.1 as f32);
+  }
+
 }
 
 pub fn buffer_arrow_data(ctx: &WebGl2RenderingContext) -> () {
 
+  //      +1y
+  //
+  // -1x        +1x
+  //
+  //      -1y
+
   // Define the vertices for two triangles that form a sort of arrow
   let vertices: [f32; 12] = [
-    0.0, 0.0,
-    0.0, 1.0,
-    -1.0, 1.1,
+    0.0, 0.5,
+    0.5, -0.5,
+    0.0, -0.25,
 
-    0.0, 0.0,
-    0.0, 1.0,
-    1.0, 1.1,
+    0.0, 0.5,
+    -0.5, -0.5,
+    0.0, -0.25,
   ];
 
 

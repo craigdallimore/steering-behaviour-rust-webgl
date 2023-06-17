@@ -43,6 +43,7 @@ impl Game {
 
   fn render(&self, ctx: &WebGl2RenderingContext) {
 
+    // Tell webgl the -1 <-> +1 clipspace maps to 0 <-> dimension{x,y}
     ctx.viewport(
       0,
       0,
@@ -74,10 +75,10 @@ pub fn main() -> Result<(), JsValue> {
   let arrow_program = make_program(&ctx, "vs-arrow", "fs-arrow")?;
 
   ctx.bind_buffer(WebGl2RenderingContext::ARRAY_BUFFER, Some(&stage_vertex_buffer));
-  setup_stage_program(&ctx, &stage_program, &dimensions);
+  setup_stage_program(&ctx, &stage_program);
 
   ctx.bind_buffer(WebGl2RenderingContext::ARRAY_BUFFER, Some(&arrow_vertex_buffer));
-  setup_arrow_program(&ctx, &arrow_program);
+  setup_arrow_program(&ctx, &arrow_program, &dimensions);
 
 
   let game = Game::new(
