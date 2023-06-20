@@ -10,6 +10,7 @@ mod program_arrow;
 
 use game_loop::game_loop;
 use draw::{draw_stage, draw_arrow};
+use kinematic::Kinematic;
 use vector::Vector;
 use web_sys::{WebGl2RenderingContext, WebGlProgram};
 use program_stage::{setup_stage_program, buffer_stage_data};
@@ -56,8 +57,24 @@ impl Game {
     draw_stage(ctx);
 
     ctx.use_program(Some(&self.arrow_program));
-    buffer_arrow_data(&ctx);
-    draw_arrow(ctx);
+
+    let kinematics = vec![
+      Kinematic {
+        position: Vector(400.0, 400.0),
+        orientation: 0.0,
+        velocity: Vector(0.0, 0.0),
+        rotation: 0.0
+      },
+      Kinematic {
+        position: Vector(500.0, 400.0),
+        orientation: 1.5708,
+        velocity: Vector(0.0, 0.0),
+        rotation: 0.0
+      }
+    ];
+
+    buffer_arrow_data(&ctx, &kinematics);
+    draw_arrow(ctx, kinematics.len());
 
   }
 }

@@ -1,6 +1,6 @@
 use web_sys::{WebGl2RenderingContext, WebGlProgram};
 
-use crate::vector::Vector;
+use crate::{vector::Vector, kinematic::Kinematic};
 use nalgebra::Vector2;
 
 pub fn setup_arrow_program(
@@ -26,40 +26,46 @@ pub fn setup_arrow_program(
 
 }
 
-pub fn buffer_arrow_data(ctx: &WebGl2RenderingContext) -> () {
+pub fn buffer_arrow_data(ctx: &WebGl2RenderingContext, kinematics: &Vec<Kinematic>) -> () {
 
-   // Create a translation vector
-  let translation = Vector2::new(400.0, 400.0);
+    let vs:Vec<f32> = kinematics.iter().flat_map(|kinematic| {
 
-  // Create a rotation angle in radians
-  let rotation_angle = 0.0;
+        // Create a translation vector
+        let translation = Vector2::new(kinematic.position.0, kinematic.position.1);
 
-  // Create a scaling vector
-  let scaling = Vector2::new(0.5, 0.5);
+        // Create a rotation angle in radians
+        let rotation_angle = kinematic.orientation;
 
-  // Define your shape's vertices as 2D vectors
-  let vertices: [Vector2<f32>; 6] = [
-      Vector2::new(0.0, -25.0),
-      Vector2::new(0.0, 10.0),
-      Vector2::new(25.0, 25.0),
-      Vector2::new(0.0, -25.0),
-      Vector2::new(0.0, 10.0),
-      Vector2::new(-25.0, 25.0),
-  ];
+        // Create a scaling vector
+        let scaling = Vector2::new(0.5, 0.5);
 
-  // Apply the transformations to your shape's vertices
-  let transformed_vertices: Vec<f32> = vertices
-      .iter()
-      .flat_map(|v| {
-          let a = v.component_mul(&scaling);
-          let b = nalgebra::Rotation2::new(rotation_angle) * a;
-          let c = b + translation;
-          [c.x, c.y]
-      })
-      .collect();
+        // Define your shape's vertices as 2D vectors
+        let vertices: [Vector2<f32>; 6] = [
+            Vector2::new(0.0, -25.0),
+            Vector2::new(0.0, 10.0),
+            Vector2::new(25.0, 25.0),
+            Vector2::new(0.0, -25.0),
+            Vector2::new(0.0, 10.0),
+            Vector2::new(-25.0, 25.0),
+        ];
+
+        // Apply the transformations to your shape's vertices
+        let vertices:Vec<f32> = vertices
+            .iter()
+            .flat_map(|v| {
+                let a = v.component_mul(&scaling);
+                let b = nalgebra::Rotation2::new(rotation_angle) * a;
+                let c = b + translation;
+                [c.x, c.y]
+            })
+        .collect();
+
+        vertices
+
+    }).collect();
 
   unsafe {
-    let vertex_array = js_sys::Float32Array::view(&transformed_vertices);
+    let vertex_array = js_sys::Float32Array::view(&vs);
     ctx.buffer_data_with_array_buffer_view(
       WebGl2RenderingContext::ARRAY_BUFFER,
       &vertex_array,
