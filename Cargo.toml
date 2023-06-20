@@ -2,6 +2,8 @@
 name = "steering"
 version = "0.1.0"
 authors = ["craigdallimore <decoy9697@gmail.com>"]
+description = "steering behaviours"
+repository = "git@github.com:craigdallimore/steering-behaviour-rust-webgl.git"
 edition = "2021"
 license = "MIT"
 
