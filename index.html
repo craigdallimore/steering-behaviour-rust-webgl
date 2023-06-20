@@ -60,7 +60,7 @@
           vec2 zeroToTwo = zeroToOne * 2.0;
 
           // convert from 0<->2 to -1 <-> +1 (clip space)
-          vec2 clipspace = zeroToTwo - 1.0;
+          vec2 clipspace = vec2(zeroToTwo.x - 1.0, 1.0 - zeroToTwo.y);
 
           gl_Position = vec4(clipspace, 0, 1);
         }

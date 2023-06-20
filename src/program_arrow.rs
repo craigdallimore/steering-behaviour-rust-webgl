@@ -35,13 +35,14 @@ pub fn buffer_arrow_data(ctx: &WebGl2RenderingContext) -> () {
 
   // Define the vertices for two triangles that form a sort of arrow
   let vertices: [f32; 12] = [
-    0.0, 0.5,
-    0.5, -0.5,
-    0.0, -0.25,
+    0.0,  0.0,
+    0.0, 50.0,
+    25.0, 75.0,
 
-    0.0, 0.5,
-    -0.5, -0.5,
-    0.0, -0.25,
+    0.0,  0.0,
+    0.0, 50.0,
+    -25.0, 75.0,
+
   ];
 
 

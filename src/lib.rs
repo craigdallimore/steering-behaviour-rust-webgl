@@ -78,6 +78,7 @@ pub fn main() -> Result<(), JsValue> {
   setup_stage_program(&ctx, &stage_program);
 
   ctx.bind_buffer(WebGl2RenderingContext::ARRAY_BUFFER, Some(&arrow_vertex_buffer));
+  ctx.use_program(Some(&arrow_program));
   setup_arrow_program(&ctx, &arrow_program, &dimensions);
 
 
