@@ -1,6 +1,7 @@
 use web_sys::{WebGl2RenderingContext, WebGlProgram};
 
 use crate::vector::Vector;
+use nalgebra::Vector2;
 
 pub fn setup_arrow_program(
   ctx: &WebGl2RenderingContext,
@@ -27,27 +28,38 @@ pub fn setup_arrow_program(
 
 pub fn buffer_arrow_data(ctx: &WebGl2RenderingContext) -> () {
 
-  //      +1y
-  //
-  // -1x        +1x
-  //
-  //      -1y
+   // Create a translation vector
+  let translation = Vector2::new(400.0, 400.0);
 
-  // Define the vertices for two triangles that form a sort of arrow
-  let vertices: [f32; 12] = [
-    0.0,  0.0,
-    0.0, 50.0,
-    25.0, 75.0,
+  // Create a rotation angle in radians
+  let rotation_angle = 0.0;
 
-    0.0,  0.0,
-    0.0, 50.0,
-    -25.0, 75.0,
+  // Create a scaling vector
+  let scaling = Vector2::new(0.5, 0.5);
 
+  // Define your shape's vertices as 2D vectors
+  let vertices: [Vector2<f32>; 6] = [
+      Vector2::new(0.0, -25.0),
+      Vector2::new(0.0, 10.0),
+      Vector2::new(25.0, 25.0),
+      Vector2::new(0.0, -25.0),
+      Vector2::new(0.0, 10.0),
+      Vector2::new(-25.0, 25.0),
   ];
 
+  // Apply the transformations to your shape's vertices
+  let transformed_vertices: Vec<f32> = vertices
+      .iter()
+      .flat_map(|v| {
+          let a = v.component_mul(&scaling);
+          let b = nalgebra::Rotation2::new(rotation_angle) * a;
+          let c = b + translation;
+          [c.x, c.y]
+      })
+      .collect();
 
   unsafe {
-    let vertex_array = js_sys::Float32Array::view(&vertices);
+    let vertex_array = js_sys::Float32Array::view(&transformed_vertices);
     ctx.buffer_data_with_array_buffer_view(
       WebGl2RenderingContext::ARRAY_BUFFER,
       &vertex_array,
