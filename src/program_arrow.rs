@@ -1,6 +1,6 @@
 use web_sys::{WebGl2RenderingContext, WebGlProgram};
 
-use crate::{vector::Vector, kinematic::Kinematic};
+use crate::{vector::Vector, domain::kinematic::Kinematic};
 use nalgebra::Vector2;
 
 pub fn setup_arrow_program(

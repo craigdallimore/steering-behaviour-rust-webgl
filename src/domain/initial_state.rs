@@ -3,7 +3,11 @@ use crate::domain::kinematic::Kinematic;
 use crate::domain::character::Character;
 
 pub struct State {
-  characters: Vec<Character>
+  pub characters: Vec<Character>
+}
+
+pub enum Action {
+  Tick(f64)
 }
 
 impl State {
@@ -29,6 +33,12 @@ impl State {
       ]
     }
   }
-
-
+  pub fn dispatch(self: &mut State, action: Action) -> &State {
+    match action {
+      Action::Tick(tick) => {
+        self.characters[0].kinematic.orientation += tick as f32;
+        self
+      }
+    }
+  }
 }

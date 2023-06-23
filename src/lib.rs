@@ -14,7 +14,7 @@ use vector::Vector;
 use web_sys::{WebGl2RenderingContext, WebGlProgram};
 use program_stage::{setup_stage_program, buffer_stage_data};
 use program_arrow::{setup_arrow_program, buffer_arrow_data};
-use domain::initial_state::State;
+use domain::initial_state::{State, Action};
 
 use wasm_bindgen::prelude::*;
 use canvas::{get_context, make_program};
@@ -43,7 +43,8 @@ impl Game {
   }
 
   fn update(&mut self, time: f64) {
-    self.state.characters[0].kinematic.orientation += time as f32;
+    let action: Action = Action::Tick(time);
+    self.state.dispatch(action);
   }
 
   fn render(&self, ctx: &WebGl2RenderingContext) {
@@ -62,8 +63,10 @@ impl Game {
 
     ctx.use_program(Some(&self.arrow_program));
 
-    buffer_arrow_data(&ctx, &self.state.kinematics);
-    draw_arrow(ctx, self.state.kinematics.len());
+    let kinematics = &self.state.characters.iter().map(|c| { c.kinematic }).collect();
+
+    buffer_arrow_data(&ctx, &kinematics);
+    draw_arrow(ctx, kinematics.len());
 
   }
 }
