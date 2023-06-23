@@ -19,7 +19,12 @@ use program_arrow::{setup_arrow_program, buffer_arrow_data};
 use wasm_bindgen::prelude::*;
 use canvas::{get_context, make_program};
 
+struct State {
+  kinematics: Vec<Kinematic>
+}
+
 pub struct Game {
+  state: State,
   dimensions: Vector,
   stage_program: WebGlProgram,
   arrow_program: WebGlProgram
@@ -31,15 +36,34 @@ impl Game {
     stage_program: WebGlProgram,
     arrow_program: WebGlProgram
   ) -> Game {
+    let kinematics = vec![
+      Kinematic {
+        position: Vector(400.0, 400.0),
+        orientation: 0.0,
+        velocity: Vector(0.0, 0.0),
+        rotation: 0.0
+      },
+      Kinematic {
+        position: Vector(500.0, 400.0),
+        orientation: 1.5708,
+        velocity: Vector(0.0, 0.0),
+        rotation: 0.0
+      }
+    ];
+
+
     Game {
       dimensions,
       stage_program,
       arrow_program,
+      state: State {
+        kinematics
+      }
     }
   }
 
-  fn update(&mut self, _time: f64) {
-    //self.emitter.update(time, self.dimensions);
+  fn update(&mut self, time: f64) {
+    self.state.kinematics[0].orientation += time as f32;
   }
 
   fn render(&self, ctx: &WebGl2RenderingContext) {
@@ -58,23 +82,8 @@ impl Game {
 
     ctx.use_program(Some(&self.arrow_program));
 
-    let kinematics = vec![
-      Kinematic {
-        position: Vector(400.0, 400.0),
-        orientation: 0.0,
-        velocity: Vector(0.0, 0.0),
-        rotation: 0.0
-      },
-      Kinematic {
-        position: Vector(500.0, 400.0),
-        orientation: 1.5708,
-        velocity: Vector(0.0, 0.0),
-        rotation: 0.0
-      }
-    ];
-
-    buffer_arrow_data(&ctx, &kinematics);
-    draw_arrow(ctx, kinematics.len());
+    buffer_arrow_data(&ctx, &self.state.kinematics);
+    draw_arrow(ctx, self.state.kinematics.len());
 
   }
 }
