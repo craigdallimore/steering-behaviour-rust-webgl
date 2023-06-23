@@ -4,24 +4,20 @@
 mod vector;
 mod draw;
 mod canvas;
-mod kinematic;
+mod domain;
 mod program_stage;
 mod program_arrow;
 
 use game_loop::game_loop;
 use draw::{draw_stage, draw_arrow};
-use kinematic::Kinematic;
 use vector::Vector;
 use web_sys::{WebGl2RenderingContext, WebGlProgram};
 use program_stage::{setup_stage_program, buffer_stage_data};
 use program_arrow::{setup_arrow_program, buffer_arrow_data};
+use domain::initial_state::State;
 
 use wasm_bindgen::prelude::*;
 use canvas::{get_context, make_program};
-
-struct State {
-  kinematics: Vec<Kinematic>
-}
 
 pub struct Game {
   state: State,
@@ -36,34 +32,18 @@ impl Game {
     stage_program: WebGlProgram,
     arrow_program: WebGlProgram
   ) -> Game {
-    let kinematics = vec![
-      Kinematic {
-        position: Vector(400.0, 400.0),
-        orientation: 0.0,
-        velocity: Vector(0.0, 0.0),
-        rotation: 0.0
-      },
-      Kinematic {
-        position: Vector(500.0, 400.0),
-        orientation: 1.5708,
-        velocity: Vector(0.0, 0.0),
-        rotation: 0.0
-      }
-    ];
 
 
     Game {
       dimensions,
       stage_program,
       arrow_program,
-      state: State {
-        kinematics
-      }
+      state: State::new()
     }
   }
 
   fn update(&mut self, time: f64) {
-    self.state.kinematics[0].orientation += time as f32;
+    self.state.characters[0].kinematic.orientation += time as f32;
   }
 
   fn render(&self, ctx: &WebGl2RenderingContext) {
