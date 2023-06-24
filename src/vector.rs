@@ -10,7 +10,7 @@ impl Vector {
     fn cross(a: &Vector, b: &Vector) -> f32 {
         a.0 * b.1 - a.1 * b.0
     }
-    fn length(v: &Vector) -> f32 {
+    pub fn length(v: &Vector) -> f32 {
         v.0.hypot(v.1)
     }
     // TODO: check if this is legit
@@ -24,7 +24,7 @@ impl Vector {
         let theta = (angle * std::f32::consts::PI) / 180.0;
         Vector(theta.cos(), theta.sin())
     }
-    fn normalise(v: &Vector) -> Vector {
+    pub fn normalise(v: &Vector) -> Vector {
         let l = Vector::length(&v);
         if l == 0.0 {
             return Vector(v.0, v.1);

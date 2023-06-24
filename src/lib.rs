@@ -5,6 +5,7 @@ mod vector;
 mod draw;
 mod canvas;
 mod domain;
+mod steering;
 mod program_stage;
 mod program_arrow;
 
@@ -43,7 +44,7 @@ impl Game {
   }
 
   fn update(&mut self, time: f64) {
-    let action: Action = Action::Tick(time);
+    let action: Action = Action::Tick(time as f32);
     self.state.dispatch(action);
   }
 
