@@ -25,7 +25,7 @@ fn limit_orientation(o: f32) -> f32 {
 
 
 impl Kinematic {
-  pub fn update(self: &Self, steering: Steering, time: f32) -> () {
+  pub fn update(mut self: Self, steering: Steering, time: f32) -> () {
 
     let next_position:Vector = self.position + (self.velocity * time);
 

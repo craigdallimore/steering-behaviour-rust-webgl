@@ -45,7 +45,7 @@ impl State {
     match action {
       Action::Tick(tick) => {
 
-        for (i, char) in self.characters.iter().enumerate() {
+        for (_i, char) in self.characters.iter().enumerate() {
           char.apply_behaviours(tick);
         }
 

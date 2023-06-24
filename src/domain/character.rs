@@ -18,7 +18,7 @@ impl Character {
       label: None,
     }
   }
-  pub fn apply_behaviour(self: &Self, tick: f32) {
+  pub fn apply_behaviours(self: &Self, tick: f32) {
 
     let target_orientation = 0.0;
 
