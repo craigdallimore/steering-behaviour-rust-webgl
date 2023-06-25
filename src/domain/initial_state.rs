@@ -1,6 +1,8 @@
+use crate::steering::align::Align;
 use crate::vector::Vector;
 use crate::domain::kinematic::Kinematic;
 use crate::domain::character::Character;
+use crate::domain::steering::Behaviour;
 
 pub struct State {
   pub characters: Vec<Character>
@@ -24,7 +26,9 @@ impl State {
             velocity: Vector(0.0, 0.0),
             rotation: 0.0
           },
-          vec![]
+          vec![
+            Align::new()
+          ]
         ),
         Character::new(
           Kinematic {
@@ -32,11 +36,13 @@ impl State {
             max_angular_acceleration: 140.0,
             max_speed: 45.0,
             position: Vector(500.0, 400.0),
-            orientation: 1.5708,
+            orientation: -1.5708,
             velocity: Vector(0.0, 0.0),
             rotation: 0.0
           },
-          vec![]
+          vec![
+            Align::new()
+          ]
         )
       ]
     }

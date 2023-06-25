@@ -9,3 +9,7 @@
 - [ ] vector lib
   - [ ] figure out how to use borrowed vectors
   - [ ] check tests (degrees and radians)
+
+- [ ] implementation
+  - [ ] implement Align
+  - [ ] make it possile for characters to have a vector of behaviours

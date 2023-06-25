@@ -9,4 +9,5 @@ pub struct Steering {
 pub trait Behaviour {
   type Args;
   fn calculate(self: &Self, kinematic: Kinematic, args: Self::Args) -> Steering;
+  fn new() -> Self;
 }
