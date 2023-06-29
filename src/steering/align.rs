@@ -1,4 +1,4 @@
-use crate::domain::{steering::{Behaviour, Steering}, kinematic::Kinematic};
+use crate::domain::{steering::Steering, kinematic::Kinematic};
 use crate::vector::Vector;
 
 fn map_to_range(orientation: f32) -> f32 {
@@ -22,10 +22,9 @@ pub struct Align {
 }
 
 
-impl Behaviour for Align {
-  type Args = f32;
+impl Align {
 
-  fn new() -> Align {
+  pub fn new() -> Align {
     Align {
       max_rotation: 120.0,
       deceleration_tolerance: 2.0,
@@ -34,7 +33,7 @@ impl Behaviour for Align {
     }
   }
 
-  fn calculate(self: &Self, kinematic: Kinematic, orientation: Self::Args) -> Steering {
+  pub fn calculate(self: &Self, kinematic: Kinematic, orientation: f32) -> Steering {
     let linear = Vector(0.0, 0.0);
 
     // what change in orientation is needed

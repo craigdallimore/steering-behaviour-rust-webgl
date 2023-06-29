@@ -1,15 +1,13 @@
-use crate::steering::align::Align;
-
 use super::{kinematic::Kinematic, steering::Behaviour};
 
 pub struct Character {
-  pub behaviours: Vec<Align>,
+  pub behaviours: Vec<Behaviour>,
   pub kinematic: Kinematic,
   pub label: Option<String>,
 }
 
 impl Character {
-  pub fn new(kinematic: Kinematic, behaviours: Vec<Align>) -> Character {
+  pub fn new(kinematic: Kinematic, behaviours: Vec<Behaviour>) -> Character {
     Character {
       behaviours,
       kinematic,
@@ -20,9 +18,15 @@ impl Character {
 
     let target_orientation = 0.0;
 
-    if self.behaviours.len() > 0 {
-      let steering = self.behaviours[0].calculate(self.kinematic, target_orientation);
-      self.kinematic.update(steering, tick);
+    for (_i, behaviour) in self.behaviours.iter_mut().enumerate() {
+      match behaviour {
+        Behaviour::Align(align) => {
+          let steering = align.calculate(self.kinematic, target_orientation);
+          self.kinematic.update(steering, tick);
+        }
+      }
+
+
     }
 
 

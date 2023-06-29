@@ -27,7 +27,7 @@ impl State {
             rotation: 0.0
           },
           vec![
-            Align::new()
+            Behaviour::Align(Align::new())
           ]
         ),
         Character::new(
@@ -41,7 +41,7 @@ impl State {
             rotation: 0.0
           },
           vec![
-            Align::new()
+            Behaviour::Align(Align::new())
           ]
         )
       ]
