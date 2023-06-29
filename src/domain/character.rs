@@ -16,9 +16,9 @@ impl Character {
       label: None,
     }
   }
-  pub fn apply_behaviours(self: &Self, tick: f32) {
+  pub fn apply_behaviours(self: &mut Self, tick: f32) {
 
-    let target_orientation = -1.5;
+    let target_orientation = 0.0;
 
     if self.behaviours.len() > 0 {
       let steering = self.behaviours[0].calculate(self.kinematic, target_orientation);

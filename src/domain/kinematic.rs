@@ -25,7 +25,7 @@ fn limit_orientation(o: f32) -> f32 {
 
 
 impl Kinematic {
-  pub fn update(mut self: Self, steering: Steering, time: f32) -> () {
+  pub fn update(&mut self, steering: Steering, time: f32) -> () {
 
     let next_position:Vector = self.position + (self.velocity * time);
 
@@ -33,21 +33,20 @@ impl Kinematic {
     // multiplied by time.
     let next_velocity = self.velocity + (steering.linear * time);
 
-    // time is going to be a decimal between 0 and 1 (probably).
-    // Here we multiply the rotation speed by time (giving a time-proportional
-    // value) and add it to the current orientation.
-    let next_orientation = limit_orientation(self.orientation + (self.rotation * time));
-
-    let next_rotation = steering.angular * time;
-
-    let final_velocity = if Vector::length(&next_velocity) >= self.max_speed {
+    let next_velocity = if Vector::length(&next_velocity) >= self.max_speed {
       Vector::normalise(&next_velocity) * self.max_speed
     } else {
       next_velocity
     };
 
+    // time is going to be a decimal between 0 and 1 (probably).
+    // Here we multiply the rotation speed by time (giving a time-proportional
+    // value) and add it to the current orientation.
+    let next_orientation = limit_orientation(self.orientation + (self.rotation * time));
+    let next_rotation = steering.angular * time;
+
     self.position = next_position;
-    self.velocity = final_velocity;
+    self.velocity = next_velocity;
     self.orientation = next_orientation;
     self.rotation = next_rotation;
   }

@@ -43,7 +43,7 @@ impl Game {
     }
   }
 
-  fn update(&mut self, time: f64) {
+  fn update(self: &mut Self, time: f64) {
     let action: Action = Action::Tick(time as f32);
     self.state.dispatch(action);
   }

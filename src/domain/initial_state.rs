@@ -36,7 +36,7 @@ impl State {
             max_angular_acceleration: 140.0,
             max_speed: 45.0,
             position: Vector(500.0, 400.0),
-            orientation: -1.5708,
+            orientation: 1.5708,
             velocity: Vector(0.0, 0.0),
             rotation: 0.0
           },
@@ -47,15 +47,14 @@ impl State {
       ]
     }
   }
-  pub fn dispatch(self: &mut State, action: Action) -> &State {
+  pub fn dispatch(self: &mut State, action: Action) -> () {
     match action {
       Action::Tick(tick) => {
 
-        for (_i, char) in self.characters.iter().enumerate() {
+        for (_i, char) in self.characters.iter_mut().enumerate() {
           char.apply_behaviours(tick);
         }
 
-        self
       }
     }
   }

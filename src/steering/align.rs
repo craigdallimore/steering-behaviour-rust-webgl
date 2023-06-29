@@ -37,27 +37,29 @@ impl Behaviour for Align {
   fn calculate(self: &Self, kinematic: Kinematic, orientation: Self::Args) -> Steering {
     let linear = Vector(0.0, 0.0);
 
+    // what change in orientation is needed
     let rotation = map_to_range(orientation - kinematic.orientation);
+
+    // how much should it change
     let rotation_size = rotation.abs();
 
-    if rotation_size > self.align_tolerance {
+    // do nothing, if the amount to change is trivial
+    if rotation_size < self.align_tolerance {
       return Steering {
         linear,
         angular: 0.0
       };
     }
 
-    let is_slowed = rotation_size <= self.deceleration_tolerance;
-    let ideal_rotation = if is_slowed {
+    let should_decelerate = rotation_size <= self.deceleration_tolerance;
+    let ideal_rotation = if should_decelerate {
       (self.max_rotation * rotation_size) / self.deceleration_tolerance
     } else {
       self.max_rotation
     };
 
-
     let next_ideal_rotation = ideal_rotation * (rotation / rotation_size);
     let angular = (next_ideal_rotation - kinematic.rotation) / self.time_to_target;
-
     let angular_acceleration = angular.abs();
     let final_angular = if angular_acceleration > kinematic.max_angular_acceleration {
       (angular * kinematic.max_angular_acceleration) / angular_acceleration
