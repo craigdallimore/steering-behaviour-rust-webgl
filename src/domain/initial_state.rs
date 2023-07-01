@@ -1,5 +1,6 @@
 use crate::steering::align::Align;
 use crate::steering::face::Face;
+use crate::steering::seek::Seek;
 use crate::vector::Vector;
 use crate::domain::kinematic::Kinematic;
 use crate::domain::character::Character;
@@ -35,7 +36,7 @@ impl State {
             rotation: 0.0
           },
           vec![
-            Behaviour::Face(Face::new())
+            Behaviour::Seek(Seek::new())
           ]
         ),
         Character::new(

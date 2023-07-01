@@ -31,6 +31,10 @@ impl Character {
           let steering = face.calculate(self.kinematic, face_position);
           self.kinematic.update(steering, tick);
         }
+        Behaviour::Seek(seek) => {
+          let steering = seek.calculate(self.kinematic, face_position);
+          self.kinematic.update(steering, tick);
+        }
       }
 
 
