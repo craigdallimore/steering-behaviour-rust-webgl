@@ -1,3 +1,4 @@
+use crate::steering::face::Face;
 use crate::vector::Vector;
 use crate::steering::align::Align;
 
@@ -7,5 +8,6 @@ pub struct Steering {
 }
 
 pub enum Behaviour {
-  Align(Align)
+  Align(Align),
+  Face(Face)
 }

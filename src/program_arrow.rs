@@ -41,12 +41,14 @@ pub fn buffer_arrow_data(ctx: &WebGl2RenderingContext, kinematics: &Vec<Kinemati
 
         // Define your shape's vertices as 2D vectors
         let vertices: [Vector2<f32>; 6] = [
-            Vector2::new(0.0, -25.0),
-            Vector2::new(0.0, 10.0),
-            Vector2::new(25.0, 25.0),
-            Vector2::new(0.0, -25.0),
-            Vector2::new(0.0, 10.0),
-            Vector2::new(-25.0, 25.0),
+
+          Vector2::new(25.0, 0.0),
+          Vector2::new(-10.0, 0.0),
+          Vector2::new(-25.0, -25.0),
+          Vector2::new(25.0, 0.0),
+          Vector2::new(-10.0, 0.0),
+          Vector2::new(-25.0, 25.0),
+
         ];
 
         // Apply the transformations to your shape's vertices

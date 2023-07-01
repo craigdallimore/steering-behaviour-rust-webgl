@@ -1,4 +1,5 @@
 use crate::steering::align::Align;
+use crate::steering::face::Face;
 use crate::vector::Vector;
 use crate::domain::kinematic::Kinematic;
 use crate::domain::character::Character;
@@ -14,6 +15,12 @@ pub enum Action {
 
 impl State {
   pub fn new() -> State {
+
+    let pi = std::f32::consts::PI;
+    let east = 0.0; // east
+    let west = pi; // west
+    let north = pi * 0.5; // south
+    let south = pi * 1.5; // north???
     State {
       characters: vec![
         Character::new(
@@ -22,12 +29,12 @@ impl State {
             max_angular_acceleration: 140.0,
             max_speed: 45.0,
             position: Vector(400.0, 400.0),
-            orientation: 0.0,
+            orientation: south,
             velocity: Vector(0.0, 0.0),
             rotation: 0.0
           },
           vec![
-            Behaviour::Align(Align::new())
+            //Behaviour::Align(Align::new())
           ]
         ),
         Character::new(
@@ -41,7 +48,7 @@ impl State {
             rotation: 0.0
           },
           vec![
-            Behaviour::Align(Align::new())
+            Behaviour::Face(Face::new())
           ]
         )
       ]

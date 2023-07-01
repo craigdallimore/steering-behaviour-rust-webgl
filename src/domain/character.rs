@@ -1,3 +1,5 @@
+use crate::vector::Vector;
+
 use super::{kinematic::Kinematic, steering::Behaviour};
 
 pub struct Character {
@@ -16,12 +18,17 @@ impl Character {
   }
   pub fn apply_behaviours(self: &mut Self, tick: f32) {
 
-    let target_orientation = 0.0;
+    let align_orientation = 0.0;
+    let face_position = Vector(0.0, 0.0);
 
     for (_i, behaviour) in self.behaviours.iter_mut().enumerate() {
       match behaviour {
         Behaviour::Align(align) => {
-          let steering = align.calculate(self.kinematic, target_orientation);
+          let steering = align.calculate(self.kinematic, align_orientation);
+          self.kinematic.update(steering, tick);
+        }
+        Behaviour::Face(face) => {
+          let steering = face.calculate(self.kinematic, face_position);
           self.kinematic.update(steering, tick);
         }
       }
