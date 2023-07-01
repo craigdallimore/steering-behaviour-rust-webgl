@@ -1,18 +1,7 @@
 use crate::domain::{steering::Steering, kinematic::Kinematic};
 use crate::vector::Vector;
 
-fn map_to_range(orientation: f32) -> f32 {
-  let pi = std::f32::consts::PI;
-  // To rotate all the way clockwise, use the value 6.283
-  // 6.3 is roughtly NE 0.01 I expect.
-  let next_orientation = if orientation.abs() > pi {
-    orientation - pi * 2.0 * orientation.signum()
-  } else {
-    orientation
-  };
-
-  next_orientation % (pi * 2.0)
-}
+use super::helpers::map_to_range;
 
 pub struct Align {
   align_tolerance: f32,

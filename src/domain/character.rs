@@ -18,8 +18,8 @@ impl Character {
   }
   pub fn apply_behaviours(self: &mut Self, tick: f32) {
 
-    let align_orientation = 0.0;
-    let face_position = Vector(0.0, 0.0);
+    let align_orientation = 0.0; // east
+    let face_position = Vector(400.0, 400.0);
 
     for (_i, behaviour) in self.behaviours.iter_mut().enumerate() {
       match behaviour {

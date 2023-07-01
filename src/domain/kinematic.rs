@@ -1,4 +1,4 @@
-use crate::vector::Vector;
+use crate::{vector::Vector, steering::helpers::limit_orientation};
 use super::steering::Steering;
 
 #[derive(Clone, Copy)]
@@ -11,18 +11,6 @@ pub struct Kinematic {
     pub velocity: Vector,
     pub rotation: f32,
 }
-
-fn limit_orientation(o: f32) -> f32 {
-  let pi = std::f32::consts::PI;
-  if o > 2.0 * pi {
-    return -2.0 * pi;
-  }
-  if o < -2.0 * pi {
-    return 2.0 * pi;
-  }
-  o
-}
-
 
 impl Kinematic {
   pub fn update(&mut self, steering: Steering, time: f32) -> () {
