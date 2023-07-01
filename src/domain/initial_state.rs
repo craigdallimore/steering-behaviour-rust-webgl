@@ -17,10 +17,11 @@ impl State {
   pub fn new() -> State {
 
     let pi = std::f32::consts::PI;
-    let east = 0.0; // east
-    let west = pi; // west
-    let north = pi * 0.5; // south
-    let south = pi * 1.5; // north???
+
+    let east = 0.0;
+    let west = pi;
+    let north = pi * 0.5;
+    let south = pi * 1.5;
     State {
       characters: vec![
         Character::new(
@@ -28,13 +29,13 @@ impl State {
             max_acceleration: 25.0,
             max_angular_acceleration: 140.0,
             max_speed: 45.0,
-            position: Vector(400.0, 400.0),
-            orientation: south,
+            position: Vector(200.0, 200.0),
+            orientation: north,
             velocity: Vector(0.0, 0.0),
             rotation: 0.0
           },
           vec![
-            //Behaviour::Align(Align::new())
+            Behaviour::Face(Face::new())
           ]
         ),
         Character::new(
@@ -42,13 +43,55 @@ impl State {
             max_acceleration: 25.0,
             max_angular_acceleration: 140.0,
             max_speed: 45.0,
-            position: Vector(500.0, 400.0),
-            orientation: 1.5708,
+            position: Vector(400.0, 400.0),
+            orientation: north,
             velocity: Vector(0.0, 0.0),
             rotation: 0.0
           },
           vec![
-            Behaviour::Face(Face::new())
+            // Behaviour::Face(Face::new())
+          ]
+        ),
+        Character::new(
+          Kinematic {
+            max_acceleration: 25.0,
+            max_angular_acceleration: 140.0,
+            max_speed: 45.0,
+            position: Vector(400.0, 440.0),
+            orientation: south,
+            velocity: Vector(0.0, 0.0),
+            rotation: 0.0
+          },
+          vec![
+            //Behaviour::Face(Face::new())
+          ]
+        ),
+        Character::new(
+          Kinematic {
+            max_acceleration: 25.0,
+            max_angular_acceleration: 140.0,
+            max_speed: 45.0,
+            position: Vector(380.0, 420.0),
+            orientation: west,
+            velocity: Vector(0.0, 0.0),
+            rotation: 0.0
+          },
+          vec![
+            //Behaviour::Face(Face::new())
+          ]
+        ),
+        Character::new(
+          Kinematic {
+            max_acceleration: 25.0,
+            max_angular_acceleration: 140.0,
+            max_speed: 45.0,
+            position: Vector(420.0, 420.0),
+            orientation: east,
+            velocity: Vector(0.0, 0.0),
+            rotation: 0.0
+          },
+          vec![
+            //Behaviour::Face(Face::new())
           ]
         )
       ]
