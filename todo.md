@@ -14,11 +14,11 @@
   - [ ] implement Arrive
   - [ ] implement CollisionAvoidance
   - [ ] implement Evade
-  - [ ] implement Flee
+  - [x] implement Flee
   - [ ] implement FollowPathChaseRabbit
   - [ ] implement FollowPathPredict
-  - [ ] implement LookwhereYouAreGoing
-  - [ ] implement MatchVelocity
+  - [ ] implement LookWhereYouAreGoing
+  - [x] implement MatchVelocity
   - [ ] implement ObstacleAvoidance
   - [ ] implement Pursue
   - [ ] implement Separation
