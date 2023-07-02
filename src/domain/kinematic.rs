@@ -12,7 +12,22 @@ pub struct Kinematic {
     pub rotation: f32,
 }
 
+impl Default for Kinematic {
+  fn default() -> Kinematic {
+    Kinematic {
+      max_acceleration: 25.0,
+      max_angular_acceleration: 140.0,
+      max_speed: 45.0,
+      position: Vector(0.0, 0.0),
+      orientation: 0.0,
+      velocity: Vector(0.0, 0.0),
+      rotation: 0.0
+    }
+  }
+}
+
 impl Kinematic {
+
   pub fn update(&mut self, steering: Steering, time: f32) -> () {
 
     let next_position:Vector = self.position + (self.velocity * time);
