@@ -11,5 +11,24 @@
   - [ ] check tests (degrees and radians)
 
 - [ ] implementation
-  - [ ] implement Align
+  - [ ] implement Arrive
+  - [ ] implement CollisionAvoidance
+  - [ ] implement Evade
+  - [ ] implement Flee
+  - [ ] implement FollowPathChaseRabbit
+  - [ ] implement FollowPathPredict
+  - [ ] implement LookwhereYouAreGoing
+  - [ ] implement MatchVelocity
+  - [ ] implement ObstacleAvoidance
+  - [ ] implement Pursue
+  - [ ] implement Separation
+  - [ ] implement Wander
+
+
+
+
+
+
+
+
   - [ ] make it possile for characters to have a vector of behaviours
