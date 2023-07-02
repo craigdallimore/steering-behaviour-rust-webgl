@@ -18,13 +18,13 @@ impl Character {
   }
   pub fn apply_behaviours(self: &mut Self, tick: f32) {
 
-    let align_orientation = 0.0; // east
-    let face_position = Vector(700.0, 100.0);
+    let target_orientation = 0.0; // east
+    let target_position = Vector(700.0, 100.0);
 
     for (_i, behaviour) in self.behaviours.iter_mut().enumerate() {
       match behaviour {
         Behaviour::Align(behaviour) => {
-          let steering = behaviour.calculate(self.kinematic, align_orientation);
+          let steering = behaviour.calculate(self.kinematic, target_orientation);
           self.kinematic.update(steering, tick);
         }
         Behaviour::Arrive(behaviour) => {
@@ -44,11 +44,11 @@ impl Character {
           self.kinematic.update(steering, tick);
         }
         Behaviour::Face(behaviour) => {
-          let steering = behaviour.calculate(self.kinematic, face_position);
+          let steering = behaviour.calculate(self.kinematic, target_position);
           self.kinematic.update(steering, tick);
         }
         Behaviour::Flee(behaviour) => {
-          let steering = behaviour.calculate(self.kinematic);
+          let steering = behaviour.calculate(self.kinematic, target_position);
           self.kinematic.update(steering, tick);
         }
         Behaviour::FollowPathChaseRabbit(behaviour) => {
@@ -72,7 +72,7 @@ impl Character {
           self.kinematic.update(steering, tick);
         }
         Behaviour::Seek(behaviour) => {
-          let steering = behaviour.calculate(self.kinematic, face_position);
+          let steering = behaviour.calculate(self.kinematic, target_position);
           self.kinematic.update(steering, tick);
         }
         Behaviour::Separation(behaviour) => {
