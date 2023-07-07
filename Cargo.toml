@@ -23,6 +23,7 @@ rand = "0.8.5"
 serde = { version = "1.0.152", features = ["derive"] }                              # A generic serialization/deserialization framework
 serde_json = "1.0.91"                          # A JSON serialization file format
 wasm-bindgen = "0.2"
+float-cmp = "0.9.0"
 
 [dependencies.web-sys]
 version = "0.3.59"

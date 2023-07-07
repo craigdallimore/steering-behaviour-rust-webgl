@@ -1,4 +1,5 @@
 use std::ops;
+use float_cmp::approx_eq;
 
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub struct Vector(pub f32, pub f32);
@@ -13,9 +14,16 @@ impl Vector {
     pub fn length(v: &Vector) -> f32 {
         v.0.hypot(v.1)
     }
-    // TODO: check if this is legit
     pub fn to_radians(v: &Vector) -> f32 {
-        v.0.atan2(0.0 - v.1)
+     let pi = std::f32::consts::PI;
+     let n = v.1.atan2(0.0 - v.0);
+
+      if n >= pi {
+        n - pi
+      } else {
+        n + pi
+      }
+
     }
     fn from_radians(rad: f32) -> Vector {
         Vector(rad.sin(), rad.cos())
@@ -116,9 +124,34 @@ mod tests {
     }
     #[test]
     fn test_to_radians() {
-        let v = Vector(3.0, 4.0);
-        // same as node
-        assert_eq!(Vector::to_radians(&v), 2.4980917);
+        let pi = std::f32::consts::PI;
+
+        let rad_east = 0.0;
+        let rad_ne = pi * 0.25;
+        let rad_north = pi * 0.5;
+        let rad_nw = pi * 0.75;
+        let rad_west = pi;
+        let rad_sw = pi * 1.25;
+        let rad_south = pi * 1.5;
+        let rad_se = pi * 1.75;
+
+        let vec_e  = Vector(1.0, 0.0);
+        let vec_ne = Vector(1.0, -1.0);
+        let vec_n  = Vector(0.0, -1.0);
+        let vec_nw = Vector(-1.0, -1.0);
+        let vec_w =  Vector(-1.0, 0.0);
+        let vec_sw = Vector(-1.0,  1.0);
+        let vec_s =  Vector(0.0, 1.0);
+        let vec_se = Vector( 1.0,  1.0);
+
+        assert!(approx_eq!(f32, Vector::to_radians(&vec_e), rad_east));
+        assert!(approx_eq!(f32, Vector::to_radians(&vec_ne), rad_ne));
+        assert!(approx_eq!(f32, Vector::to_radians(&vec_n), rad_north));
+        assert!(approx_eq!(f32, Vector::to_radians(&vec_nw), rad_nw));
+        assert!(approx_eq!(f32, Vector::to_radians(&vec_w), rad_west));
+        assert!(approx_eq!(f32, Vector::to_radians(&vec_sw), rad_sw));
+        assert!(approx_eq!(f32, Vector::to_radians(&vec_s), rad_south));
+        assert!(approx_eq!(f32, Vector::to_radians(&vec_se), rad_se));
     }
     #[test]
     fn test_from_radians() {
