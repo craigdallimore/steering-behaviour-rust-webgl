@@ -14,7 +14,7 @@ impl Vector {
         v.0.hypot(v.1)
     }
     // TODO: check if this is legit
-    fn to_radians(v: &Vector) -> f32 {
+    pub fn to_radians(v: &Vector) -> f32 {
         v.0.atan2(0.0 - v.1)
     }
     fn from_radians(rad: f32) -> Vector {
@@ -41,26 +41,26 @@ impl Vector {
 
 impl ops::Add<Vector> for Vector {
     type Output = Vector;
-    fn add(self, _rhs: Vector) -> Vector {
-        Vector(self.0 + _rhs.0, self.1 + _rhs.1)
+    fn add(self, rhs: Vector) -> Vector {
+        Vector(self.0 + rhs.0, self.1 + rhs.1)
     }
 }
 impl ops::Sub<Vector> for Vector {
     type Output = Vector;
-    fn sub(self, _rhs: Vector) -> Vector {
-        Vector(self.0 - _rhs.0, self.1 - _rhs.1)
+    fn sub(self, rhs: Vector) -> Vector {
+        Vector(self.0 - rhs.0, self.1 - rhs.1)
     }
 }
 impl ops::Mul<f32> for Vector {
     type Output = Vector;
-    fn mul(self, _rhs: f32) -> Vector {
-        Vector(self.0 * _rhs, self.1 * _rhs)
+    fn mul(self, rhs: f32) -> Vector {
+        Vector(self.0 * rhs, self.1 * rhs)
     }
 }
 impl ops::MulAssign<f32> for Vector {
-    fn mul_assign(&mut self, _rhs: f32) {
-        self.0 *= _rhs;
-        self.1 *= _rhs;
+    fn mul_assign(&mut self, rhs: f32) {
+        self.0 *= rhs;
+        self.1 *= rhs;
     }
 }
 
