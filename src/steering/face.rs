@@ -24,11 +24,9 @@ impl Face {
       }
     }
 
-    let pi = std::f32::consts::PI;
+    let orientation = Vector::to_radians(&direction);
 
-    let next_orientation = direction.0.atan2(direction.1) - (pi * 0.5);
-
-    self.align.calculate(kinematic, next_orientation)
+    self.align.calculate(kinematic, orientation)
 
   }
 
