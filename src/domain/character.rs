@@ -18,8 +18,19 @@ impl Character {
   }
   pub fn apply_behaviours(self: &mut Self, tick: f32) {
 
-    let target_orientation = 0.0; // east
-    let target_position = Vector(700.0, 100.0);
+    let pi = std::f32::consts::PI;
+
+    let rad_east = 0.0;
+    let rad_ne = pi * 0.25;
+    let rad_north = pi * 0.5;
+    let rad_nw = pi * 0.75;
+    let rad_west = pi;
+    let rad_sw = pi * 1.25;
+    let rad_south = pi * 1.5;
+    let rad_se = pi * 1.75;
+
+    let target_orientation = rad_se;
+    let target_position = Vector(800.0, 800.0);
     let mut target: Kinematic = Kinematic::default();
     target.velocity = Vector(0.0, 10.0);
     target.position =  Vector(600.0, 600.0);

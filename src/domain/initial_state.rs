@@ -1,6 +1,7 @@
 use crate::steering::align::Align;
 use crate::steering::face::Face;
 use crate::steering::flee::Flee;
+use crate::steering::look_where_you_are_going::LookWhereYouAreGoing;
 use crate::steering::match_velocity::MatchVelocity;
 use crate::steering::seek::Seek;
 use crate::vector::Vector;
@@ -25,78 +26,57 @@ impl State {
     let west = pi;
     let north = pi * 0.5;
     let south = pi * 1.5;
+
+    let nw = Vector(-1.0, -1.0);
+    let ne = Vector( 1.0, -1.0);
+    let sw = Vector(-1.0,  1.0);
+    let se = Vector( 1.0,  1.0);
+
     State {
       characters: vec![
         Character::new(
           Kinematic {
-            max_acceleration: 25.0,
-            max_angular_acceleration: 140.0,
-            max_speed: 45.0,
-            position: Vector(200.0, 200.0),
-            orientation: north,
-            velocity: Vector(0.0, 0.0),
-            rotation: 0.0
+            position: Vector(150.0, 200.0),
+            velocity: se,
+            orientation: west,
+            ..Kinematic::default()
           },
           vec![
-            Behaviour::MatchVelocity(MatchVelocity::new())
+            Behaviour::LookWhereYouAreGoing(LookWhereYouAreGoing::new())
           ]
         ),
         Character::new(
           Kinematic {
-            max_acceleration: 25.0,
-            max_angular_acceleration: 140.0,
-            max_speed: 45.0,
-            position: Vector(400.0, 400.0),
+            position: Vector(400.0, 360.0),
             orientation: north,
-            velocity: Vector(0.0, 0.0),
-            rotation: 0.0
+            ..Kinematic::default()
           },
-          vec![
-            // Behaviour::Face(Face::new())
-          ]
+          vec![]
         ),
         Character::new(
           Kinematic {
-            max_acceleration: 25.0,
-            max_angular_acceleration: 140.0,
-            max_speed: 45.0,
             position: Vector(400.0, 440.0),
             orientation: south,
-            velocity: Vector(0.0, 0.0),
-            rotation: 0.0
+            ..Kinematic::default()
           },
-          vec![
-            //Behaviour::Face(Face::new())
-          ]
+          vec![]
         ),
         Character::new(
           Kinematic {
-            max_acceleration: 25.0,
-            max_angular_acceleration: 140.0,
-            max_speed: 45.0,
-            position: Vector(380.0, 420.0),
+            position: Vector(360.0, 400.0),
             orientation: west,
-            velocity: Vector(0.0, 0.0),
-            rotation: 0.0
+            ..Kinematic::default()
           },
-          vec![
-            //Behaviour::Face(Face::new())
-          ]
+          vec![]
         ),
         Character::new(
           Kinematic {
-            max_acceleration: 25.0,
-            max_angular_acceleration: 140.0,
-            max_speed: 45.0,
-            position: Vector(420.0, 420.0),
+            position: Vector(440.0, 400.0),
             orientation: east,
-            velocity: Vector(0.0, 0.0),
-            rotation: 0.0
+            ..Kinematic::default()
           },
-          vec![
-            //Behaviour::Face(Face::new())
-          ]
-        )
+          vec![]
+        ),
       ]
     }
   }
