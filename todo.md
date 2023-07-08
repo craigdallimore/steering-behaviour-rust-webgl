@@ -19,6 +19,6 @@
   - [x] implement LookWhereYouAreGoing
   - [x] implement MatchVelocity
   - [ ] implement ObstacleAvoidance
-  - [ ] implement Pursue
+  - [x] implement Pursue
   - [ ] implement Separation
   - [ ] implement Wander

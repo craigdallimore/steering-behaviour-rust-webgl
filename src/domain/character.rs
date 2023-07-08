@@ -46,7 +46,7 @@ impl Character {
                     }
                 }
                 Behaviour::Pursue(behaviour) => {
-                    let steering = behaviour.calculate(self.kinematic);
+                    let steering = behaviour.calculate(self.kinematic, target);
                     self.kinematic.update(steering, tick);
                 }
                 Behaviour::CollisionAvoidance(behaviour) => {

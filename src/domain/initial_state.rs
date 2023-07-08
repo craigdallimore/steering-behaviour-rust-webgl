@@ -7,6 +7,7 @@ use crate::steering::face::Face;
 use crate::steering::flee::Flee;
 use crate::steering::look_where_you_are_going::LookWhereYouAreGoing;
 use crate::steering::match_velocity::MatchVelocity;
+use crate::steering::pursue::Pursue;
 use crate::steering::seek::Seek;
 use crate::vector::Vector;
 
@@ -41,7 +42,7 @@ impl State {
                         orientation: west,
                         ..Kinematic::default()
                     },
-                    vec![Behaviour::Flee(Flee::new())],
+                    vec![Behaviour::Pursue(Pursue::new())],
                 ),
                 Character::new(
                     Kinematic {
