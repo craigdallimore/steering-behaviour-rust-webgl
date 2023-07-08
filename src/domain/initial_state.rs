@@ -2,6 +2,7 @@ use crate::domain::character::Character;
 use crate::domain::kinematic::Kinematic;
 use crate::domain::steering::Behaviour;
 use crate::steering::align::Align;
+use crate::steering::arrive::Arrive;
 use crate::steering::face::Face;
 use crate::steering::flee::Flee;
 use crate::steering::look_where_you_are_going::LookWhereYouAreGoing;
@@ -40,7 +41,7 @@ impl State {
                         orientation: west,
                         ..Kinematic::default()
                     },
-                    vec![Behaviour::LookWhereYouAreGoing(LookWhereYouAreGoing::new())],
+                    vec![Behaviour::Arrive(Arrive::new())],
                 ),
                 Character::new(
                     Kinematic {

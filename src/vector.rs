@@ -40,7 +40,7 @@ impl Vector {
         let v2 = v.clone();
         v2 * factor
     }
-    fn distance(a: Vector, b: Vector) -> f32 {
+    pub fn distance(a: Vector, b: Vector) -> f32 {
         let v = a - b;
         Vector::length(&v)
     }

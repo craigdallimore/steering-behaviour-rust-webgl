@@ -29,10 +29,10 @@ impl Character {
         let rad_se = pi * 1.75;
 
         let target_orientation = rad_se;
-        let target_position = Vector(800.0, 800.0);
+        let target_position = Vector(400.0, 400.0);
         let mut target: Kinematic = Kinematic::default();
         target.velocity = Vector(0.0, 10.0);
-        target.position = Vector(600.0, 600.0);
+        target.position = target_position;
 
         for (_i, behaviour) in self.behaviours.iter_mut().enumerate() {
             match behaviour {
@@ -41,8 +41,9 @@ impl Character {
                     self.kinematic.update(steering, tick);
                 }
                 Behaviour::Arrive(behaviour) => {
-                    let steering = behaviour.calculate(self.kinematic);
-                    self.kinematic.update(steering, tick);
+                    if let Some(steering) = behaviour.calculate(self.kinematic, target.position) {
+                        self.kinematic.update(steering, tick);
+                    }
                 }
                 Behaviour::Pursue(behaviour) => {
                     let steering = behaviour.calculate(self.kinematic);

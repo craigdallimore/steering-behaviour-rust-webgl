@@ -10,7 +10,7 @@
   - [ ] check tests (degrees and radians)
 
 - [ ] implementation
-  - [ ] implement Arrive
+  - [x] implement Arrive
   - [ ] implement CollisionAvoidance
   - [ ] implement Evade
   - [x] implement Flee
