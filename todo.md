@@ -12,7 +12,7 @@
 - [ ] implementation
   - [x] implement Arrive
   - [ ] implement CollisionAvoidance
-  - [ ] implement Evade
+  - [x] implement Evade
   - [x] implement Flee
   - [ ] implement FollowPathChaseRabbit
   - [ ] implement FollowPathPredict

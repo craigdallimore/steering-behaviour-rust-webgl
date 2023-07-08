@@ -54,7 +54,7 @@ impl Character {
                     self.kinematic.update(steering, tick);
                 }
                 Behaviour::Evade(behaviour) => {
-                    let steering = behaviour.calculate(self.kinematic);
+                    let steering = behaviour.calculate(self.kinematic, target);
                     self.kinematic.update(steering, tick);
                 }
                 Behaviour::Face(behaviour) => {

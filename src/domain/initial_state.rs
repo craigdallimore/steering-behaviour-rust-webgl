@@ -41,7 +41,7 @@ impl State {
                         orientation: west,
                         ..Kinematic::default()
                     },
-                    vec![Behaviour::Arrive(Arrive::new())],
+                    vec![Behaviour::Flee(Flee::new())],
                 ),
                 Character::new(
                     Kinematic {
