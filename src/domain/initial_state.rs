@@ -9,6 +9,7 @@ use crate::steering::look_where_you_are_going::LookWhereYouAreGoing;
 use crate::steering::match_velocity::MatchVelocity;
 use crate::steering::pursue::Pursue;
 use crate::steering::seek::Seek;
+use crate::steering::wander::Wander;
 use crate::vector::Vector;
 
 pub struct State {
@@ -37,12 +38,11 @@ impl State {
             characters: vec![
                 Character::new(
                     Kinematic {
-                        position: Vector(150.0, 200.0),
-                        velocity: se,
+                        position: Vector(750.0, 800.0),
                         orientation: west,
                         ..Kinematic::default()
                     },
-                    vec![Behaviour::Pursue(Pursue::new())],
+                    vec![Behaviour::Wander(Wander::new())],
                 ),
                 Character::new(
                     Kinematic {

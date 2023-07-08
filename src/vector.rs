@@ -24,7 +24,7 @@ impl Vector {
             n + pi
         }
     }
-    fn from_radians(rad: f32) -> Vector {
+    pub fn from_radians(rad: f32) -> Vector {
         Vector(rad.sin(), rad.cos())
     }
     fn from_degrees(angle: f32) -> Vector {

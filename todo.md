@@ -21,4 +21,4 @@
   - [ ] implement ObstacleAvoidance
   - [x] implement Pursue
   - [ ] implement Separation
-  - [ ] implement Wander
+  - [x] implement Wander
