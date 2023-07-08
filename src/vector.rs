@@ -1,5 +1,5 @@
-use std::ops;
 use float_cmp::approx_eq;
+use std::ops;
 
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub struct Vector(pub f32, pub f32);
@@ -15,15 +15,14 @@ impl Vector {
         v.0.hypot(v.1)
     }
     pub fn to_radians(v: &Vector) -> f32 {
-     let pi = std::f32::consts::PI;
-     let n = v.1.atan2(0.0 - v.0);
+        let pi = std::f32::consts::PI;
+        let n = v.1.atan2(0.0 - v.0);
 
-      if n >= pi {
-        n - pi
-      } else {
-        n + pi
-      }
-
+        if n >= pi {
+            n - pi
+        } else {
+            n + pi
+        }
     }
     fn from_radians(rad: f32) -> Vector {
         Vector(rad.sin(), rad.cos())
@@ -135,14 +134,14 @@ mod tests {
         let rad_south = pi * 1.5;
         let rad_se = pi * 1.75;
 
-        let vec_e  = Vector(1.0, 0.0);
+        let vec_e = Vector(1.0, 0.0);
         let vec_ne = Vector(1.0, -1.0);
-        let vec_n  = Vector(0.0, -1.0);
+        let vec_n = Vector(0.0, -1.0);
         let vec_nw = Vector(-1.0, -1.0);
-        let vec_w =  Vector(-1.0, 0.0);
-        let vec_sw = Vector(-1.0,  1.0);
-        let vec_s =  Vector(0.0, 1.0);
-        let vec_se = Vector( 1.0,  1.0);
+        let vec_w = Vector(-1.0, 0.0);
+        let vec_sw = Vector(-1.0, 1.0);
+        let vec_s = Vector(0.0, 1.0);
+        let vec_se = Vector(1.0, 1.0);
 
         assert!(approx_eq!(f32, Vector::to_radians(&vec_e), rad_east));
         assert!(approx_eq!(f32, Vector::to_radians(&vec_ne), rad_ne));

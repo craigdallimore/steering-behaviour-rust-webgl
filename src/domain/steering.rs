@@ -16,24 +16,24 @@ use crate::steering::wander::Wander;
 use crate::vector::Vector;
 
 pub struct Steering {
-  pub linear: Vector,
-  pub angular: f32
+    pub linear: Vector,
+    pub angular: f32,
 }
 
 pub enum Behaviour {
-  Align(Align),
-  Arrive(Arrive),
-  CollisionAvoidance(CollisionAvoidance),
-  Evade(Evade),
-  Face(Face),
-  Flee(Flee),
-  FollowPathChaseRabbit(FollowPathChaseRabbit),
-  FollowPathPredict(FollowPathChasePredict),
-  LookWhereYouAreGoing(LookWhereYouAreGoing),
-  MatchVelocity(MatchVelocity),
-  ObstacleAvoidance(ObstacleAvoidance),
-  Pursue(Pursue),
-  Seek(Seek),
-  Separation(Separation),
-  Wander(Wander),
+    Align(Align),
+    Arrive(Arrive),
+    CollisionAvoidance(CollisionAvoidance),
+    Evade(Evade),
+    Face(Face),
+    Flee(Flee),
+    FollowPathChaseRabbit(FollowPathChaseRabbit),
+    FollowPathPredict(FollowPathChasePredict),
+    LookWhereYouAreGoing(LookWhereYouAreGoing),
+    MatchVelocity(MatchVelocity),
+    ObstacleAvoidance(ObstacleAvoidance),
+    Pursue(Pursue),
+    Seek(Seek),
+    Separation(Separation),
+    Wander(Wander),
 }
