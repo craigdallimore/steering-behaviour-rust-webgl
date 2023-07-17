@@ -1,5 +1,5 @@
-use wasm_bindgen::{JsCast, JsValue};
-use web_sys::{WebGl2RenderingContext, WebGlProgram, WebGlShader};
+use wasm_bindgen::{JsCast, JsValue, prelude::Closure};
+use web_sys::{WebGl2RenderingContext, WebGlProgram, WebGlShader, console};
 
 // https://rustwasm.github.io/wasm-bindgen/examples/webgl.html
 pub fn compile_shader(
@@ -96,11 +96,30 @@ pub fn get_shader_string_by_id(id: String) -> String {
 }
 
 pub fn get_context() -> Result<WebGl2RenderingContext, JsValue> {
-    let document = web_sys::window().unwrap().document().unwrap();
+
+    let window = web_sys::window().unwrap();
+    let document = window.document().unwrap();
 
     let canvas = document.get_element_by_id("canvas-main").unwrap();
+    let c = canvas.clone();
+
+    let parent = canvas.parent_element().unwrap();
+
+    let cb = Closure::<dyn FnMut()>::new(move || {
+      let p = parent.get_bounding_client_rect();
+      let width = p.width();
+      let height = p.height();
+
+      c.set_attribute("width", &width.to_string()).unwrap();
+      c.set_attribute("height", &height.to_string()).unwrap();
+
+    });
 
     let canvas: web_sys::HtmlCanvasElement = canvas.dyn_into::<web_sys::HtmlCanvasElement>()?;
+
+    window.add_event_listener_with_callback("resize", cb.as_ref().unchecked_ref())?;
+
+    cb.forget();
 
     let ctx = canvas
         .get_context("webgl2")?
