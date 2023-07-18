@@ -61,9 +61,9 @@ impl Game {
 
 #[wasm_bindgen(start)]
 pub fn main() -> Result<(), JsValue> {
-    let dimensions = Vector(800.0, 800.0);
-    let ctx = get_context()?;
+    let (ctx, width, height) = get_context()?;
 
+    let dimensions = Vector(width, height);
     let stage_vertex_buffer = ctx.create_buffer().unwrap();
     let arrow_vertex_buffer = ctx.create_buffer().unwrap();
 

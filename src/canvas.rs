@@ -95,7 +95,7 @@ pub fn get_shader_string_by_id(id: String) -> String {
     element.text_content().unwrap()
 }
 
-pub fn get_context() -> Result<WebGl2RenderingContext, JsValue> {
+pub fn get_context() -> Result<(WebGl2RenderingContext, f32, f32), JsValue> {
 
     let window = web_sys::window().unwrap();
     let document = window.document().unwrap();
@@ -105,7 +105,7 @@ pub fn get_context() -> Result<WebGl2RenderingContext, JsValue> {
 
     let parent = canvas.parent_element().unwrap();
 
-    let cb = Closure::<dyn FnMut()>::new(move || {
+    let cb = move || {
       let p = parent.get_bounding_client_rect();
       let width = p.width();
       let height = p.height();
@@ -113,18 +113,21 @@ pub fn get_context() -> Result<WebGl2RenderingContext, JsValue> {
       c.set_attribute("width", &width.to_string()).unwrap();
       c.set_attribute("height", &height.to_string()).unwrap();
 
-    });
+    };
+
+    cb();
+
+    let on_resize = Closure::<dyn FnMut()>::new(cb);
+
+    window.add_event_listener_with_callback("resize", on_resize.as_ref().unchecked_ref())?;
+
+    on_resize.forget();
 
     let canvas: web_sys::HtmlCanvasElement = canvas.dyn_into::<web_sys::HtmlCanvasElement>()?;
-
-    window.add_event_listener_with_callback("resize", cb.as_ref().unchecked_ref())?;
-
-    cb.forget();
-
     let ctx = canvas
         .get_context("webgl2")?
         .unwrap()
         .dyn_into::<WebGl2RenderingContext>()?;
 
-    Ok(ctx)
+    Ok((ctx, canvas.width() as f32, canvas.height() as f32))
 }
