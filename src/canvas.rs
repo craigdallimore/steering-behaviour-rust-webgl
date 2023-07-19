@@ -1,5 +1,5 @@
-use wasm_bindgen::{JsCast, JsValue, prelude::Closure};
-use web_sys::{WebGl2RenderingContext, WebGlProgram, WebGlShader, console};
+use wasm_bindgen::{prelude::Closure, JsCast, JsValue};
+use web_sys::{console, WebGl2RenderingContext, WebGlProgram, WebGlShader};
 
 // https://rustwasm.github.io/wasm-bindgen/examples/webgl.html
 pub fn compile_shader(
@@ -96,7 +96,6 @@ pub fn get_shader_string_by_id(id: String) -> String {
 }
 
 pub fn get_context() -> Result<(WebGl2RenderingContext, f32, f32), JsValue> {
-
     let window = web_sys::window().unwrap();
     let document = window.document().unwrap();
 
@@ -106,13 +105,12 @@ pub fn get_context() -> Result<(WebGl2RenderingContext, f32, f32), JsValue> {
     let parent = canvas.parent_element().unwrap();
 
     let cb = move || {
-      let p = parent.get_bounding_client_rect();
-      let width = p.width();
-      let height = p.height();
+        let p = parent.get_bounding_client_rect();
+        let width = p.width();
+        let height = p.height();
 
-      c.set_attribute("width", &width.to_string()).unwrap();
-      c.set_attribute("height", &height.to_string()).unwrap();
-
+        c.set_attribute("width", &width.to_string()).unwrap();
+        c.set_attribute("height", &height.to_string()).unwrap();
     };
 
     cb();
