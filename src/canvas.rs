@@ -1,5 +1,5 @@
 use wasm_bindgen::{prelude::Closure, JsCast, JsValue};
-use web_sys::{console, WebGl2RenderingContext, WebGlProgram, WebGlShader};
+use web_sys::{WebGl2RenderingContext, WebGlProgram, WebGlShader};
 
 // https://rustwasm.github.io/wasm-bindgen/examples/webgl.html
 pub fn compile_shader(

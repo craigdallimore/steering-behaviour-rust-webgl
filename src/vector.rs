@@ -1,4 +1,3 @@
-use float_cmp::approx_eq;
 use std::ops;
 
 #[derive(Copy, Clone, Debug, PartialEq)]
