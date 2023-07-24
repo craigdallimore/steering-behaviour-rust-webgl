@@ -1,3 +1,4 @@
+
 use std::ops;
 
 #[derive(Copy, Clone, Debug, PartialEq)]
@@ -72,6 +73,8 @@ impl ops::MulAssign<f32> for Vector {
 
 #[cfg(test)]
 mod tests {
+    use float_cmp::approx_eq;
+
     use super::*;
 
     #[test]

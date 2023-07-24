@@ -8,7 +8,7 @@ impl ObstacleAvoidance {
         ObstacleAvoidance {}
     }
 
-    pub fn calculate(self: &Self, kinematic: Kinematic) -> Steering {
+    pub fn calculate(self: &Self, _kinematic: Kinematic) -> Steering {
         Steering {
             linear: Vector(0.0, 0.0),
             angular: 0.0,
