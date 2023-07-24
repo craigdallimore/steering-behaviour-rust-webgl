@@ -1,18 +1,20 @@
-use crate::steering::align::Align;
-use crate::steering::arrive::Arrive;
-use crate::steering::collision_avoidance::CollisionAvoidance;
-use crate::steering::evade::Evade;
-use crate::steering::face::Face;
-use crate::steering::flee::Flee;
-use crate::steering::follow_path_chase_rabbit::FollowPathChaseRabbit;
-use crate::steering::follow_path_predict::FollowPathChasePredict;
-use crate::steering::look_where_you_are_going::LookWhereYouAreGoing;
-use crate::steering::match_velocity::MatchVelocity;
-use crate::steering::obstacle_avoidance::ObstacleAvoidance;
-use crate::steering::pursue::Pursue;
-use crate::steering::seek::Seek;
-use crate::steering::separation::Separation;
-use crate::steering::wander::Wander;
+use crate::steering::{
+    align::Align,
+    arrive::Arrive,
+    collision_avoidance::CollisionAvoidance,
+    evade::Evade,
+    face::Face,
+    flee::Flee,
+    follow_path_chase_rabbit::FollowPathChaseRabbit,
+    follow_path_predict::FollowPathChasePredict,
+    look_where_you_are_going::LookWhereYouAreGoing,
+    match_velocity::MatchVelocity,
+    obstacle_avoidance::ObstacleAvoidance,
+    pursue::Pursue,
+    seek::Seek,
+    separation::Separation,
+    wander::Wander,
+};
 use crate::vector::Vector;
 
 pub struct Steering {
