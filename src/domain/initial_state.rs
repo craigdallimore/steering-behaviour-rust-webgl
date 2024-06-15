@@ -20,6 +20,8 @@ use crate::steering::{
 };
 use crate::vector::Vector;
 
+use super::steering::Steering;
+
 pub struct State {
     pub characters: Vec<Character>,
 }
@@ -87,12 +89,20 @@ impl State {
             characters: vec![c1, c2, c3, c4, c5],
         }
     }
+    fn get_steerings(self: &State, char: &mut Character) -> Vec<Steering> {
+      char.calculate_steerings(self)
+    }
     pub fn dispatch(self: &mut State, action: Action) -> () {
         match action {
             Action::Tick(tick) => {
                 for char in self.characters.iter_mut() {
-                    char.apply_behaviours(tick, self);
+                  let steerings = self.get_steerings(char);
+
+                  if let Some(steering) = steerings.first() {
+                    char.kinematic.update(steering, tick);
+                  }
                 }
+
             }
         }
     }

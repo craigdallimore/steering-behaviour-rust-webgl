@@ -27,7 +27,7 @@ impl Default for Kinematic {
 }
 
 impl Kinematic {
-    pub fn update(&mut self, steering: Steering, time: f32) -> () {
+    pub fn update(&mut self, steering: &Steering, time: f32) -> () {
         let next_position: Vector = self.position + (self.velocity * time);
 
         // The velocity is increased by a difference of the maximum acceleration
